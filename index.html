@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Flux — by Pragy B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.14);
+      --text: #f0f0f5;
+      --muted: #7a7a8c;
+      --accent: #c8f04e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    .glow-blob {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,240,78,0.06) 0%, transparent 70%);
+      top: -200px;
+      right: -200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav {
+      padding: 28px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-tag {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      padding: 100px 0 72px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(44px, 8vw, 80px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -2px;
+      color: var(--text);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      max-width: 480px;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.3s forwards;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-meta-item strong {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .hero-meta-item span {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 36px;
+      background: var(--border);
+    }
+
+    .section-line {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 64px;
+    }
+
+    .apps-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .apps-grid {
+      display: grid;
+      gap: 2px;
+    }
+
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 32px 36px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .app-card:first-child  { border-radius: 20px 20px 6px 6px; animation-delay: 0.35s; }
+    .app-card:nth-child(2) { border-radius: 6px; animation-delay: 0.45s; }
+    .app-card:last-child   { border-radius: 6px 6px 20px 20px; animation-delay: 0.55s; }
+
+    .app-card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface2);
+      transform: translateY(-2px);
+    }
+
+    .app-card-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .app-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .app-icon.green { background: rgba(100,220,120,0.1); border-color: rgba(100,220,120,0.2); }
+    .app-icon.blue  { background: rgba(100,160,255,0.1); border-color: rgba(100,160,255,0.2); }
+    .app-icon.red   { background: rgba(255,100,100,0.1); border-color: rgba(255,100,100,0.2); }
+
+    .app-info { flex: 1; }
+
+    .app-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+
+    .app-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 440px;
+    }
+
+    .app-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #0a0a0f;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      padding: 12px 22px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .download-btn:hover { opacity: 0.85; transform: scale(0.97); }
+
+    .download-btn svg { width: 15px; height: 15px; }
+
+    footer {
+      margin-top: 100px;
+      padding: 40px 0 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .footer-logo span { color: var(--accent); }
+
+    .footer-note { font-size: 13px; color: var(--muted); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 72px 0 56px; }
+      .app-card { grid-template-columns: 1fr; padding: 24px; }
+      .app-card-left { flex-direction: column; gap: 16px; }
+      .download-btn { width: 100%; justify-content: center; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .hero-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow-blob"></div>
+
+<div class="container">
+
+  <nav>
+    <a class="logo" href="#">Mind <span>Flux</span></a>
+    <span class="nav-tag">by Pragy B</span>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Android Apps</div>
+    <h1>Apps built to<br/><em>make life</em><br/>simpler.</h1>
+    <p class="hero-desc">A small collection of thoughtfully crafted Android apps — each one focused on doing one thing really well.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <strong>3</strong>
+        <span>Apps</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-meta-item">
+        <strong>Free</strong>
+        <span>to download</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-meta-item">
+        <strong>Android</strong>
+        <span>APK</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <p class="apps-label">All apps</p>
+
+  <div class="apps-grid">
+
+    <div class="app-card">
+      <div class="app-card-left">
+        <div class="app-icon green">💰</div>
+        <div class="app-info">
+          <div class="app-name">Expense Tracker</div>
+          <div class="app-desc">Track your daily spending across multiple wallets — cash, UPI, cards, and more — all in one place. Know exactly where your money goes.</div>
+          <div class="app-tags">
+            <span class="tag">Finance</span>
+            <span class="tag">Productivity</span>
+            <span class="tag">Android</span>
+          </div>
+        </div>
+      </div>
+      <a class="download-btn" href="https://drive.google.com/uc?export=download&id=1Scl8l9KTnF-P3yZcztLs_FsosmcXPTZu" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/>
+        </svg>
+        Download
+      </a>
+    </div>
+
+    <div class="app-card">
+      <div class="app-card-left">
+        <div class="app-icon blue">🔁</div>
+        <div class="app-info">
+          <div class="app-name">Habit Flow</div>
+          <div class="app-desc">Build habits that actually stick. Set up daily routines with 4 different reminder types — so you never miss what matters most.</div>
+          <div class="app-tags">
+            <span class="tag">Lifestyle</span>
+            <span class="tag">Habit</span>
+            <span class="tag">Android</span>
+          </div>
+        </div>
+      </div>
+      <a class="download-btn" href="https://drive.google.com/uc?export=download&id=1JDm6ora2nEsonCecadElPYcQWhbxSmN3" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/>
+        </svg>
+        Download
+      </a>
+    </div>
+
+    <div class="app-card">
+      <div class="app-card-left">
+        <div class="app-icon red">🕵️</div>
+        <div class="app-info">
+          <div class="app-name">Sus Talk</div>
+          <div class="app-desc">A party word game where one player is the imposter — they don't know the real word but must bluff their way through. Can your group sniff them out?</div>
+          <div class="app-tags">
+            <span class="tag">Game</span>
+            <span class="tag">Party</span>
+            <span class="tag">Android</span>
+          </div>
+        </div>
+      </div>
+      <a class="download-btn" href="https://drive.google.com/uc?export=download&id=16igpLXaZ9FjogSrJ81s_1Esxj-7TPbvJ" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/>
+        </svg>
+        Download
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo">Mind <span>Flux</span></div>
+    <div class="footer-note">Made by Pragy B &nbsp;·&nbsp; All apps are free to download</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
