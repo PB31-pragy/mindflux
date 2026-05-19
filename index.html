@@ -250,19 +250,18 @@
       border-radius: 24px;
       padding: 28px 32px;
       display: flex;
-      align-items: center;
-      gap: 24px;
-      transition: background 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards;
+      flex-direction: column;
+      gap: 0;
       position: relative;
       overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
     }
 
     .card::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       border-radius: 24px;
       background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
       pointer-events: none;
@@ -279,26 +278,34 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08);
     }
 
-    /* APP LOGO IMAGE */
+    /* TOP ROW: logo + name + download button all on one line */
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    /* APP LOGO */
     .app-logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
       object-fit: cover;
       flex-shrink: 0;
       border: 1px solid rgba(255,255,255,0.1);
       background: rgba(255,255,255,0.05);
     }
 
-    /* fallback icon if image fails */
+    /* fallback icon */
     .card-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-      display: flex;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: none;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 24px;
       flex-shrink: 0;
       border: 1px solid rgba(255,255,255,0.1);
     }
@@ -313,7 +320,6 @@
       font-weight: 700;
       color: #fff;
       letter-spacing: -0.3px;
-      margin-bottom: 6px;
     }
 
     .card-desc {
@@ -393,8 +399,9 @@
       .hero-stats { border-radius: 999px; }
       .stat { padding: 10px 14px; }
       .stat-label { display: none; }
-      .card { flex-direction: column; align-items: flex-start; padding: 24px; }
-      .dl-btn { width: 100%; justify-content: center; }
+      .card { padding: 20px; }
+      .card-top { flex-wrap: wrap; }
+      .dl-btn { width: 100%; justify-content: center; margin-top: 4px; }
       footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
@@ -445,59 +452,65 @@
 
     <!-- Expense Tracker -->
     <div class="card">
-      <img class="app-logo" src="logo-expense.png" alt="Expense Tracker Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-      <div class="card-icon purple" style="display:none;">💰</div>
-      <div class="card-body">
-        <div class="card-name">Expense Tracker</div>
-        <div class="card-desc">Track your daily spending across multiple wallets — cash, UPI, cards and more — all in one place. Know exactly where your money goes.</div>
-        <div class="card-tags">
-          <span class="tag">Finance</span>
-          <span class="tag">Productivity</span>
-          <span class="tag">Android</span>
+      <div class="card-top">
+        <img class="app-logo" src="logo-expense.png" alt="Expense Tracker Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon purple">💰</div>
+        <div class="card-body">
+          <div class="card-name">Expense Tracker</div>
         </div>
+        <a class="dl-btn purple" href="https://drive.google.com/uc?export=download&id=1Scl8l9KTnF-P3yZcztLs_FsosmcXPTZu" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
       </div>
-      <a class="dl-btn purple" href="https://drive.google.com/uc?export=download&id=1Scl8l9KTnF-P3yZcztLs_FsosmcXPTZu" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
-        Download
-      </a>
+      <div class="card-desc">Track your daily spending across multiple wallets — cash, UPI, cards and more — all in one place. Know exactly where your money goes.</div>
+      <div class="card-tags">
+        <span class="tag">Finance</span>
+        <span class="tag">Productivity</span>
+        <span class="tag">Android</span>
+      </div>
     </div>
 
     <!-- Habit Flow -->
     <div class="card">
-      <img class="app-logo" src="logo-habit.png" alt="Habit Flow Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-      <div class="card-icon blue" style="display:none;">🔁</div>
-      <div class="card-body">
-        <div class="card-name">Habit Flow</div>
-        <div class="card-desc">Build habits that actually stick. Set up daily routines with 4 different reminder types — so you never miss what matters most.</div>
-        <div class="card-tags">
-          <span class="tag">Lifestyle</span>
-          <span class="tag">Habits</span>
-          <span class="tag">Android</span>
+      <div class="card-top">
+        <img class="app-logo" src="logo-habit.png" alt="Habit Flow Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon blue">🔁</div>
+        <div class="card-body">
+          <div class="card-name">Habit Flow</div>
         </div>
+        <a class="dl-btn blue" href="https://drive.google.com/uc?export=download&id=1JDm6ora2nEsonCecadElPYcQWhbxSmN3" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
       </div>
-      <a class="dl-btn blue" href="https://drive.google.com/uc?export=download&id=1JDm6ora2nEsonCecadElPYcQWhbxSmN3" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
-        Download
-      </a>
+      <div class="card-desc">Build habits that actually stick. Set up daily routines with 4 different reminder types — so you never miss what matters most.</div>
+      <div class="card-tags">
+        <span class="tag">Lifestyle</span>
+        <span class="tag">Habits</span>
+        <span class="tag">Android</span>
+      </div>
     </div>
 
     <!-- Sus Talk -->
     <div class="card">
-      <img class="app-logo" src="logo-sustalk.png" alt="Sus Talk Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-      <div class="card-icon pink" style="display:none;">🕵️</div>
-      <div class="card-body">
-        <div class="card-name">Sus Talk</div>
-        <div class="card-desc">A party word game where one player is the imposter — they don't know the real word but must bluff their way through. Can your group sniff them out?</div>
-        <div class="card-tags">
-          <span class="tag">Game</span>
-          <span class="tag">Party</span>
-          <span class="tag">Android</span>
+      <div class="card-top">
+        <img class="app-logo" src="logo-sustalk.png" alt="Sus Talk Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon pink">🕵️</div>
+        <div class="card-body">
+          <div class="card-name">Sus Talk</div>
         </div>
+        <a class="dl-btn pink" href="https://drive.google.com/uc?export=download&id=16igpLXaZ9FjogSrJ81s_1Esxj-7TPbvJ" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
       </div>
-      <a class="dl-btn pink" href="https://drive.google.com/uc?export=download&id=16igpLXaZ9FjogSrJ81s_1Esxj-7TPbvJ" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
-        Download
-      </a>
+      <div class="card-desc">A party word game where one player is the imposter — they don't know the real word but must bluff their way through. Can your group sniff them out?</div>
+      <div class="card-tags">
+        <span class="tag">Game</span>
+        <span class="tag">Party</span>
+        <span class="tag">Android</span>
+      </div>
     </div>
 
   </div>
