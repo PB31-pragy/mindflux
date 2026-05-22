@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Flux — by Pragy B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-hover: rgba(255, 255, 255, 0.10);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.5);
+      --muted2: rgba(255,255,255,0.3);
+      --accent: #a78bfa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      overflow-x: hidden;
+      background: #060612;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(ellipse at 20% 20%, #1a0533 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 10%, #0a1a4a 0%, transparent 50%),
+                  radial-gradient(ellipse at 60% 80%, #1a0a2e 0%, transparent 55%),
+                  radial-gradient(ellipse at 10% 90%, #0a2a1a 0%, transparent 50%),
+                  #060612;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      animation: drift linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, #7c3aed, transparent 70%); top: -150px; left: -150px; animation-duration: 20s; }
+    .orb2 { width: 400px; height: 400px; background: radial-gradient(circle, #1d4ed8, transparent 70%); top: 10%; right: -100px; animation-duration: 25s; animation-direction: reverse; }
+    .orb3 { width: 350px; height: 350px; background: radial-gradient(circle, #be185d, transparent 70%); bottom: 5%; left: 20%; animation-duration: 18s; }
+    .orb4 { width: 300px; height: 300px; background: radial-gradient(circle, #0e7490, transparent 70%); bottom: 20%; right: 10%; animation-duration: 22s; animation-direction: reverse; }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(40px, -30px) scale(1.05); }
+      66%  { transform: translate(-20px, 40px) scale(0.97); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0 0;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .logo .dot { color: var(--accent); }
+
+    .nav-pill {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 7px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 90px 0 70px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 7px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 9vw, 96px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.2s forwards;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, #a78bfa, #60a5fa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 460px;
+      margin: 0 auto 40px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.3s forwards;
+    }
+
+    /* COMPACT STATS BAR — single line pill */
+    .hero-stats {
+      display: inline-flex;
+      align-items: center;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 999px;
+      padding: 0;
+      gap: 0;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.4s forwards;
+      overflow: hidden;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 22px;
+      white-space: nowrap;
+    }
+
+    .stat + .stat { border-left: 1px solid var(--glass-border); }
+
+    .stat-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .stat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .stat-dot.purple { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+    .stat-dot.blue   { background: #60a5fa; box-shadow: 0 0 6px #60a5fa; }
+    .stat-dot.green  { background: #34d399; box-shadow: 0 0 6px #34d399; }
+
+    /* SECTION LABEL */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+    .section-header span {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted2);
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
+
+    /* CARDS */
+    .cards { display: flex; flex-direction: column; gap: 12px; }
+
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 24px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.55s; }
+    .card:nth-child(2) { animation-delay: 0.65s; }
+    .card:nth-child(3) { animation-delay: 0.75s; }
+
+    .card:hover {
+      background: var(--glass-hover);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08);
+    }
+
+    /* TOP ROW: logo + name + download button all on one line */
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    /* APP LOGO */
+    .app-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* fallback icon */
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .card-icon.purple { background: linear-gradient(135deg, rgba(124,58,237,0.4), rgba(167,139,250,0.15)); box-shadow: 0 8px 32px rgba(124,58,237,0.3); }
+    .card-icon.blue   { background: linear-gradient(135deg, rgba(29,78,216,0.4), rgba(96,165,250,0.15));  box-shadow: 0 8px 32px rgba(29,78,216,0.3); }
+    .card-icon.pink   { background: linear-gradient(135deg, rgba(190,24,93,0.4), rgba(244,114,182,0.15)); box-shadow: 0 8px 32px rgba(190,24,93,0.3); }
+
+    .card-body { flex: 1; min-width: 0; }
+
+    .card-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 24px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dl-btn.purple { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; box-shadow: 0 8px 24px rgba(124,58,237,0.45); }
+    .dl-btn.blue   { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: #fff; box-shadow: 0 8px 24px rgba(29,78,216,0.45); }
+    .dl-btn.pink   { background: linear-gradient(135deg, #be185d, #f472b6); color: #fff; box-shadow: 0 8px 24px rgba(190,24,93,0.45); }
+    .dl-btn:hover  { transform: scale(0.96); opacity: 0.9; }
+    .dl-btn svg    { width: 15px; height: 15px; }
+
+    .coming-soon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 11px 18px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
+      white-space: nowrap;
+      cursor: default;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 72px;
+      padding-top: 32px;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.9s forwards;
+    }
+
+    .footer-logo { font-size: 15px; font-weight: 800; color: var(--muted); letter-spacing: -0.3px; }
+    .footer-logo .dot { color: var(--accent); }
+    .footer-note { font-size: 13px; color: var(--muted2); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 64px 0 56px; }
+      .hero h1 { letter-spacing: -2px; }
+      .hero-stats { border-radius: 999px; }
+      .stat { padding: 10px 14px; }
+      .stat-label { display: none; }
+      .card { padding: 20px; }
+      .card-top { flex-wrap: wrap; }
+      .dl-btn { width: 100%; justify-content: center; margin-top: 4px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="orb orb4"></div>
+
+<div class="wrapper">
+
+  <nav>
+    <a class="logo" href="#">Mind<span class="dot">.</span>Flux</a>
+    <div class="nav-pill">by Pragy B</div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">Android Apps</div>
+    <h1>Apps that<br/><span class="highlight">actually matter.</span></h1>
+    <p class="hero-sub">Thoughtfully built Android apps designed to simplify your daily life — one problem at a time.</p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-dot purple"></span>
+        <span class="stat-num">3 Apps</span>
+      </div>
+      <div class="stat">
+        <span class="stat-dot blue"></span>
+        <span class="stat-num">Free</span>
+        <span class="stat-label">Always</span>
+      </div>
+      <div class="stat">
+        <span class="stat-dot green"></span>
+        <span class="stat-num">Android</span>
+        <span class="stat-label">Platform</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-header">
+    <span>All Apps</span>
+  </div>
+
+  <div class="cards">
+
+    <!-- Expense Tracker -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-expense.png" alt="Expense Tracker Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon purple">💰</div>
+        <div class="card-body">
+          <div class="card-name">Expense Tracker</div>
+        </div>
+        <a class="dl-btn purple" href="https://drive.google.com/uc?export=download&id=1Scl8l9KTnF-P3yZcztLs_FsosmcXPTZu" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="card-desc">Track your daily spending across multiple wallets — cash, UPI, cards and more — all in one place. Know exactly where your money goes.</div>
+      <div class="card-tags">
+        <span class="tag">Finance</span>
+        <span class="tag">Productivity</span>
+        <span class="tag">Android</span>
+      </div>
+    </div>
+
+    <!-- Habit Flow -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-habit.png" alt="Habit Flow Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon blue">🔁</div>
+        <div class="card-body">
+          <div class="card-name">Habit Flow</div>
+        </div>
+        <div class="coming-soon-btn">⏳ Coming Soon</div>
+      </div>
+      <div class="card-desc">Build habits that actually stick. Set up daily routines with 4 different reminder types — so you never miss what matters most.</div>
+      <div class="card-tags">
+        <span class="tag">Lifestyle</span>
+        <span class="tag">Habits</span>
+        <span class="tag">Android</span>
+      </div>
+    </div>
+
+    <!-- Sus Talk -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-sustalk.png" alt="Sus Talk Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon pink">🕵️</div>
+        <div class="card-body">
+          <div class="card-name">Sus Talk</div>
+        </div>
+        <div class="coming-soon-btn">⏳ Coming Soon</div>
+      </div>
+      <div class="card-desc">A party word game where one player is the imposter — they don't know the real word but must bluff their way through. Can your group sniff them out?</div>
+      <div class="card-tags">
+        <span class="tag">Game</span>
+        <span class="tag">Party</span>
+        <span class="tag">Android</span>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo">Mind<span class="dot">.</span>Flux</div>
+    <div class="footer-note">Made by Pragy B &nbsp;·&nbsp; All apps free to download</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
