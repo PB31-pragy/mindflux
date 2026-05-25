@@ -392,6 +392,37 @@
     .dl-btn:hover { transform: scale(0.96); opacity: 0.9; }
     .dl-btn svg   { width: 15px; height: 15px; }
 
+    /* SCREENSHOTS */
+    .screenshots-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-top: 20px;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(168,85,247,0.3) transparent;
+    }
+    .screenshots-scroll::-webkit-scrollbar { height: 4px; }
+    .screenshots-scroll::-webkit-scrollbar-track { background: transparent; }
+    .screenshots-scroll::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 999px; }
+
+    .ss {
+      height: 220px;
+      width: auto;
+      border-radius: 12px;
+      flex-shrink: 0;
+      border: 1px solid rgba(168,85,247,0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+    }
+    .ss:hover { transform: scale(1.03); }
+
+    .size-tag {
+      color: rgba(192,132,252,0.9) !important;
+      border-color: rgba(168,85,247,0.4) !important;
+      background: rgba(124,58,237,0.15) !important;
+    }
+
     /* COMING SOON */
     .coming-soon-btn {
       display: inline-flex;
@@ -511,7 +542,14 @@
       <div class="card-tags">
         <span class="tag">Finance</span>
         <span class="tag">Productivity</span>
-        <span class="tag">Android</span>
+        <span class="tag size-tag">📦 7.8 MB</span>
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="ss1.png" alt="Screenshot 1" />
+        <img class="ss" src="ss2.png" alt="Screenshot 2" />
+        <img class="ss" src="ss3.png" alt="Screenshot 3" />
+        <img class="ss" src="ss4.png" alt="Screenshot 4" />
+        <img class="ss" src="ss5.png" alt="Screenshot 5" />
       </div>
     </div>
 
@@ -529,7 +567,6 @@
       <div class="card-tags">
         <span class="tag">Lifestyle</span>
         <span class="tag">Habits</span>
-        <span class="tag">Android</span>
       </div>
     </div>
 
@@ -547,7 +584,6 @@
       <div class="card-tags">
         <span class="tag">Game</span>
         <span class="tag">Party</span>
-        <span class="tag">Android</span>
       </div>
     </div>
 
