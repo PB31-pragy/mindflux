@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
     :root {
       --purple-deep:  #0d0015;
       --purple-dark:  #130025;
@@ -25,9 +25,9 @@
       --glass-border: rgba(168,85,247,0.25);
       --glass-hover:  rgba(120,50,200,0.22);
     }
- 
+
     html { scroll-behavior: smooth; }
- 
+
     body {
       min-height: 100vh;
       font-family: 'Outfit', sans-serif;
@@ -36,7 +36,7 @@
       overflow-x: hidden;
       background: var(--purple-deep);
     }
- 
+
     /* ── GALAXY BACKGROUND ── */
     .bg {
       position: fixed; inset: 0; z-index: 0;
@@ -48,7 +48,7 @@
         radial-gradient(ellipse at 90% 90%,  #2a005a 0%, transparent 45%),
         #0d0015;
     }
- 
+
     /* star particles */
     .stars {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -69,7 +69,7 @@
         radial-gradient(1px 1px at 18% 90%,  rgba(255,255,255,0.6) 0%, transparent 100%),
         radial-gradient(1px 1px at 77% 52%,  rgba(255,255,255,0.4) 0%, transparent 100%);
     }
- 
+
     /* floating orbs */
     .orb {
       position: fixed; border-radius: 50%;
@@ -80,17 +80,17 @@
     .orb2 { width:400px;height:400px; background:radial-gradient(circle,rgba(168,85,247,0.4),transparent 70%); top:20%;right:-80px; animation-duration:10s; animation-delay:2s; }
     .orb3 { width:350px;height:350px; background:radial-gradient(circle,rgba(236,72,153,0.3),transparent 70%); bottom:10%;left:15%; animation-duration:9s; animation-delay:1s; }
     .orb4 { width:280px;height:280px; background:radial-gradient(circle,rgba(192,132,252,0.35),transparent 70%); bottom:25%;right:5%; animation-duration:11s; animation-delay:3s; }
- 
+
     @keyframes orbFloat {
       from { transform: translate(0,0) scale(1); }
       to   { transform: translate(30px,40px) scale(1.08); }
     }
- 
+
     @keyframes fadeUp {
       from { opacity:0; transform:translateY(24px); }
       to   { opacity:1; transform:translateY(0); }
     }
- 
+
     /* ── LAYOUT ── */
     .wrapper {
       position: relative; z-index: 1;
@@ -98,7 +98,7 @@
       margin: 0 auto;
       padding: 0 24px 80px;
     }
- 
+
     /* ── NAV ── */
     nav {
       display: flex;
@@ -106,7 +106,7 @@
       justify-content: space-between;
       padding: 32px 0 0;
     }
- 
+
     .logo {
       font-size: 20px; font-weight: 800;
       letter-spacing: -0.5px; color: #fff;
@@ -114,7 +114,7 @@
       text-shadow: 0 0 20px rgba(168,85,247,0.8);
     }
     .logo .dot { color: var(--neon); }
- 
+
     .nav-pill {
       background: rgba(120,50,200,0.2);
       border: 1px solid var(--glass-border);
@@ -128,10 +128,10 @@
       text-transform: uppercase;
       box-shadow: 0 0 16px rgba(168,85,247,0.2);
     }
- 
+
     /* ── HERO ── */
     .hero { padding: 90px 0 70px; }
- 
+
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -158,7 +158,7 @@
       background: var(--neon);
       box-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
     }
- 
+
     .hero h1 {
       font-size: clamp(52px, 10vw, 100px);
       font-weight: 900;
@@ -169,13 +169,13 @@
       animation: fadeUp 0.7s ease 0.2s forwards;
       text-transform: uppercase;
     }
- 
+
     .hero h1 .line1 {
       display: block;
       color: #fff;
       text-shadow: 0 0 40px rgba(168,85,247,0.5);
     }
- 
+
     .hero h1 .line2 {
       display: block;
       background: linear-gradient(135deg, #c084fc, #e879f9, #f472b6);
@@ -184,7 +184,7 @@
       background-clip: text;
       filter: drop-shadow(0 0 30px rgba(192,132,252,0.6));
     }
- 
+
     .hero-sub {
       font-size: 16px; font-weight: 300;
       color: var(--muted);
@@ -194,7 +194,7 @@
       opacity: 0;
       animation: fadeUp 0.7s ease 0.3s forwards;
     }
- 
+
     /* ── STATS — pill ── */
     .hero-stats {
       display: inline-flex;
@@ -209,14 +209,14 @@
       animation: fadeUp 0.7s ease 0.4s forwards;
       box-shadow: 0 0 30px rgba(124,58,237,0.2);
     }
- 
+
     .stat {
       display: flex; align-items: center;
       gap: 7px; padding: 11px 22px;
       white-space: nowrap;
     }
     .stat + .stat { border-left: 1px solid rgba(168,85,247,0.2); }
- 
+
     .stat-dot {
       width: 6px; height: 6px;
       border-radius: 50%; flex-shrink: 0;
@@ -224,14 +224,14 @@
     .stat-dot.purple { background:#c084fc; box-shadow:0 0 8px #c084fc; }
     .stat-dot.blue   { background:#818cf8; box-shadow:0 0 8px #818cf8; }
     .stat-dot.pink   { background:#f472b6; box-shadow:0 0 8px #f472b6; }
- 
+
     .stat-num {
       font-size: 13px; font-weight: 700; color: #fff;
     }
     .stat-label {
       font-size: 13px; font-weight: 300; color: var(--muted);
     }
- 
+
     /* ── SECTION LABEL ── */
     .section-header {
       display: flex; align-items: center;
@@ -249,10 +249,10 @@
       content: ''; flex: 1; height: 1px;
       background: linear-gradient(90deg, rgba(168,85,247,0.3), transparent);
     }
- 
+
     /* ── CARDS ── */
     .cards { display: flex; flex-direction: column; gap: 12px; }
- 
+
     .card {
       background: var(--glass);
       border: 1px solid var(--glass-border);
@@ -269,7 +269,7 @@
       animation: fadeUp 0.6s ease forwards;
       transition: background 0.3s, border-color 0.3s, transform 0.25s, box-shadow 0.3s;
     }
- 
+
     .card::before {
       content: '';
       position: absolute; inset: 0;
@@ -277,7 +277,7 @@
       background: linear-gradient(135deg, rgba(168,85,247,0.08) 0%, transparent 60%);
       pointer-events: none;
     }
- 
+
     /* neon bottom line accent */
     .card::after {
       content: '';
@@ -286,18 +286,18 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(168,85,247,0.5), transparent);
     }
- 
+
     .card:nth-child(1) { animation-delay: 0.55s; }
     .card:nth-child(2) { animation-delay: 0.65s; }
     .card:nth-child(3) { animation-delay: 0.75s; }
- 
+
     .card:hover {
       background: var(--glass-hover);
       border-color: rgba(168,85,247,0.5);
       transform: translateY(-4px);
       box-shadow: 0 20px 60px rgba(124,58,237,0.3), 0 0 0 1px rgba(168,85,247,0.2);
     }
- 
+
     /* TOP ROW */
     .card-top {
       display: flex;
@@ -305,7 +305,7 @@
       gap: 16px;
       margin-bottom: 16px;
     }
- 
+
     /* APP LOGO */
     .app-logo {
       width: 56px; height: 56px;
@@ -316,7 +316,7 @@
       background: rgba(120,50,200,0.2);
       box-shadow: 0 0 16px rgba(168,85,247,0.2);
     }
- 
+
     .card-icon {
       width: 56px; height: 56px;
       border-radius: 14px;
@@ -330,23 +330,23 @@
     .card-icon.purple { background: linear-gradient(135deg,rgba(124,58,237,0.5),rgba(192,132,252,0.2)); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
     .card-icon.blue   { background: linear-gradient(135deg,rgba(99,102,241,0.5),rgba(129,140,248,0.2)); box-shadow: 0 0 20px rgba(99,102,241,0.4); }
     .card-icon.pink   { background: linear-gradient(135deg,rgba(190,24,93,0.5),rgba(244,114,182,0.2));  box-shadow: 0 0 20px rgba(190,24,93,0.4); }
- 
+
     .card-body { flex: 1; min-width: 0; }
- 
+
     .card-name {
       font-size: 18px; font-weight: 700;
       color: #fff; letter-spacing: -0.3px;
       text-shadow: 0 0 20px rgba(168,85,247,0.4);
     }
- 
+
     .card-desc {
       font-size: 14px; font-weight: 300;
       color: var(--muted); line-height: 1.65;
       margin-bottom: 14px;
     }
- 
+
     .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
- 
+
     .tag {
       font-size: 10px; font-weight: 600;
       letter-spacing: 0.07em;
@@ -357,7 +357,7 @@
       color: rgba(192,132,252,0.7);
       background: rgba(124,58,237,0.1);
     }
- 
+
     /* DOWNLOAD BUTTON */
     .dl-btn {
       display: inline-flex;
@@ -391,7 +391,7 @@
     }
     .dl-btn:hover { transform: scale(0.96); opacity: 0.9; }
     .dl-btn svg   { width: 15px; height: 15px; }
- 
+
     /* SCREENSHOTS */
     .screenshots-scroll {
       display: flex;
@@ -405,7 +405,7 @@
     .screenshots-scroll::-webkit-scrollbar { height: 4px; }
     .screenshots-scroll::-webkit-scrollbar-track { background: transparent; }
     .screenshots-scroll::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 999px; }
- 
+
     .ss {
       height: 220px;
       width: auto;
@@ -416,13 +416,13 @@
       transition: transform 0.2s ease;
     }
     .ss:hover { transform: scale(1.03); }
- 
+
     .size-tag {
       color: rgba(192,132,252,0.9) !important;
       border-color: rgba(168,85,247,0.4) !important;
       background: rgba(124,58,237,0.15) !important;
     }
- 
+
     /* COMING SOON */
     .coming-soon-btn {
       display: inline-flex;
@@ -440,7 +440,27 @@
       white-space: nowrap;
       cursor: default;
     }
- 
+
+    /* ── CURSOR GLOW ── */
+    .cursor-glow {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle,
+        rgba(200,130,255,0.25) 0%,
+        rgba(168,85,247,0.12) 30%,
+        rgba(124,58,237,0.04) 60%,
+        transparent 70%
+      );
+      mix-blend-mode: screen;
+      filter: blur(6px);
+      will-change: left, top;
+    }
+
     /* ── FOOTER ── */
     footer {
       margin-top: 72px;
@@ -461,7 +481,7 @@
     }
     .footer-logo .dot { color: var(--neon); }
     .footer-note { font-size: 13px; color: var(--muted2); }
- 
+
     /* ── MOBILE ── */
     @media (max-width: 640px) {
       .hero { padding: 64px 0 56px; }
@@ -477,31 +497,32 @@
   </style>
 </head>
 <body>
- 
+
+<div class="cursor-glow" id="cursorGlow"></div>
 <div class="bg"></div>
 <div class="stars"></div>
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
 <div class="orb orb4"></div>
- 
+
 <div class="wrapper">
- 
+
   <!-- NAV -->
   <nav>
     <a class="logo" href="#">Mind<span class="dot">.</span>Flux</a>
     <div class="nav-pill">by Pragy B</div>
   </nav>
- 
+
   <!-- HERO -->
   <section class="hero">
- 
+
     <h1>
       <span class="line1">Apps that</span>
       <span class="line2">actually matter.</span>
     </h1>
     <p class="hero-sub">Thoughtfully built Android apps designed to simplify your daily life — one problem at a time.</p>
- 
+
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-dot purple"></span>
@@ -519,12 +540,12 @@
       </div>
     </div>
   </section>
- 
+
   <!-- APPS -->
   <div class="section-header"><span>All Apps</span></div>
- 
+
   <div class="cards">
- 
+
     <!-- Expense Tracker -->
     <div class="card">
       <div class="card-top">
@@ -543,7 +564,7 @@
         <span class="tag">Finance</span>
         <span class="tag">Productivity</span>
         <span class="tag size-tag">📦 7.8 MB</span>
-        <span class="tag size-tag" id="count-expense">⬇ 50 downloads</span>
+
       </div>
       <div class="screenshots-scroll">
         <img class="ss" src="ss1.png" alt="Screenshot 1" />
@@ -553,7 +574,7 @@
         <img class="ss" src="ss5.png" alt="Screenshot 5" />
       </div>
     </div>
- 
+
     <!-- Habit Flow -->
     <div class="card">
       <div class="card-top">
@@ -572,7 +593,7 @@
         <span class="tag">Lifestyle</span>
         <span class="tag">Habits</span>
         <span class="tag size-tag">📦 4.5 MB</span>
-        <span class="tag size-tag" id="count-habit">⬇ 15 downloads</span>
+
       </div>
       <div class="screenshots-scroll">
         <img class="ss" src="hab1.png" alt="Screenshot 1" />
@@ -580,7 +601,7 @@
         <img class="ss" src="hab3.png" alt="Screenshot 3" />
       </div>
     </div>
- 
+
     <!-- Sus Talk -->
     <div class="card">
       <div class="card-top">
@@ -599,7 +620,7 @@
         <span class="tag">Game</span>
         <span class="tag">Party</span>
         <span class="tag size-tag">📦 7.6 MB</span>
-        <span class="tag size-tag" id="count-sus">⬇ 11 downloads</span>
+
       </div>
       <div class="screenshots-scroll">
         <img class="ss" src="sus1.png" alt="Screenshot 1" />
@@ -608,17 +629,17 @@
         <img class="ss" src="sus4.png" alt="Screenshot 4" />
       </div>
     </div>
- 
+
   </div>
- 
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">Mind<span class="dot">.</span>Flux</div>
     <div class="footer-note">Made by Pragy B &nbsp;·&nbsp; All apps free to download</div>
   </footer>
- 
+
 </div>
- 
+
 <script>
   // ── DOWNLOAD COUNTER using api.counterapi.dev (free & working) ──
   const counterConfig = [
@@ -626,7 +647,7 @@
     { key: 'mf-habit-v1',   id: 'count-habit',   btnKey: 'mindflux-habit-flow',      base: 15 },
     { key: 'mf-sustalk-v1', id: 'count-sus',     btnKey: 'mindflux-sus-talk',        base: 11 },
   ];
- 
+
   // Load counts on page load
   counterConfig.forEach(app => {
     fetch(`https://counterapi.dev/api/mindfluxpragy/${app.key}/get`)
@@ -637,7 +658,7 @@
       })
       .catch(() => {});
   });
- 
+
   // Increment on download click
   document.querySelectorAll('.dl-btn[data-key]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -654,5 +675,121 @@
     });
   });
 </script>
+<script>
+  const glow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+  });
+</script>
+
+<canvas id="space-canvas"></canvas>
+
+<style>
+  #space-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .rocket {
+    position: fixed;
+    font-size: 22px;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(192,132,252,0.8));
+    transition: none;
+  }
+</style>
+
+<!-- Rocket -->
+<div class="rocket" id="rocket">🚀</div>
+
+<script>
+  // ── MOVING STARS ──
+  const canvas = document.getElementById('space-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  let W = canvas.width  = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  const stars = Array.from({ length: 120 }, () => ({
+    x:     Math.random() * window.innerWidth,
+    y:     Math.random() * window.innerHeight,
+    r:     Math.random() * 1.5 + 0.3,
+    speed: Math.random() * 0.4 + 0.1,
+    alpha: Math.random() * 0.7 + 0.3,
+    twinkleSpeed: Math.random() * 0.02 + 0.005,
+    twinkleDir: Math.random() > 0.5 ? 1 : -1,
+  }));
+
+  function drawStars() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      // twinkle
+      s.alpha += s.twinkleSpeed * s.twinkleDir;
+      if (s.alpha >= 1)   { s.alpha = 1;   s.twinkleDir = -1; }
+      if (s.alpha <= 0.1) { s.alpha = 0.1; s.twinkleDir =  1; }
+
+      // move downward slowly
+      s.y += s.speed;
+      if (s.y > H + 2) { s.y = -2; s.x = Math.random() * W; }
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  // ── SMOOTH ROCKET FLIGHT ──
+  const rocket = document.getElementById('rocket');
+  let rx = Math.random() * window.innerWidth;
+  let ry = Math.random() * window.innerHeight;
+  let rAngle = Math.random() * 360; // degrees, tip direction
+  let rSpeed = 1.5;
+  let rTurnRate = 0; // current turn rate
+  let rTurnTarget = 0; // target turn rate
+  let rTurnTimer = 0; // frames until next turn decision
+
+  function moveRocket() {
+    // periodically decide a new turn target
+    rTurnTimer--;
+    if (rTurnTimer <= 0) {
+      rTurnTarget = (Math.random() - 0.5) * 3; // gentle curve direction
+      rTurnTimer = Math.floor(Math.random() * 120 + 60); // hold for 1-3 seconds
+    }
+
+    // smoothly ease turn rate toward target
+    rTurnRate += (rTurnTarget - rTurnRate) * 0.03;
+
+    // apply turn
+    rAngle += rTurnRate;
+
+    // move in direction of tip
+    const rad = (rAngle - 90) * Math.PI / 180;
+    rx += Math.cos(rad) * rSpeed;
+    ry += Math.sin(rad) * rSpeed;
+
+    // if rocket goes off screen, wrap to opposite side smoothly
+    if (rx < -40)  { rx = window.innerWidth  + 40; }
+    if (rx > window.innerWidth  + 40) { rx = -40; }
+    if (ry < -40)  { ry = window.innerHeight + 40; }
+    if (ry > window.innerHeight + 40) { ry = -40; }
+
+    rocket.style.left      = rx + 'px';
+    rocket.style.top       = ry + 'px';
+    rocket.style.transform = `translate(-50%, -50%) rotate(${rAngle}deg)`;
+
+    requestAnimationFrame(moveRocket);
+  }
+  moveRocket();
+</script>
+
 </body>
 </html>
