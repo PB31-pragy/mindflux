@@ -298,15 +298,6 @@
       z-index: -1;
     }
 
-    /* teal variant for extension cards */
-    .card-teal::before {
-      background: linear-gradient(270deg, #0d9488, #5eead4, #2dd4bf, #0d9488);
-      background-size: 400% 400%;
-    }
-    .card-teal::after {
-      background: rgba(5, 45, 45, 0.85);
-    }
-
     .card:nth-child(1) { animation-delay: 0.55s; }
     .card:nth-child(2) { animation-delay: 0.65s; }
     .card:nth-child(3) { animation-delay: 0.75s; }
@@ -346,11 +337,9 @@
       font-size: 24px;
       flex-shrink: 0;
       border: 1px solid rgba(168,85,247,0.3);
+      background: linear-gradient(135deg,rgba(124,58,237,0.5),rgba(192,132,252,0.2));
+      box-shadow: 0 0 20px rgba(124,58,237,0.4);
     }
-    .card-icon.purple { background: linear-gradient(135deg,rgba(124,58,237,0.5),rgba(192,132,252,0.2)); box-shadow: 0 0 20px rgba(124,58,237,0.4); }
-    .card-icon.blue   { background: linear-gradient(135deg,rgba(99,102,241,0.5),rgba(129,140,248,0.2)); box-shadow: 0 0 20px rgba(99,102,241,0.4); }
-    .card-icon.pink   { background: linear-gradient(135deg,rgba(190,24,93,0.5),rgba(244,114,182,0.2));  box-shadow: 0 0 20px rgba(190,24,93,0.4); }
-    .card-icon.teal   { background: linear-gradient(135deg,rgba(13,148,136,0.5),rgba(94,234,212,0.2));  box-shadow: 0 0 20px rgba(13,148,136,0.4); }
 
     .card-body { flex: 1; min-width: 0; }
 
@@ -394,26 +383,9 @@
       flex-shrink: 0;
       white-space: nowrap;
       transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
-    }
-    .dl-btn.purple {
       background: linear-gradient(135deg, #7c3aed, #a855f7);
       color: #fff;
       box-shadow: 0 8px 24px rgba(124,58,237,0.6), 0 0 0 1px rgba(168,85,247,0.3);
-    }
-    .dl-btn.blue {
-      background: linear-gradient(135deg, #4f46e5, #818cf8);
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(79,70,229,0.6), 0 0 0 1px rgba(129,140,248,0.3);
-    }
-    .dl-btn.pink {
-      background: linear-gradient(135deg, #be185d, #ec4899);
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(190,24,93,0.6), 0 0 0 1px rgba(236,72,153,0.3);
-    }
-    .dl-btn.teal {
-      background: linear-gradient(135deg, #0d9488, #5eead4);
-      color: #042f2e;
-      box-shadow: 0 8px 24px rgba(13,148,136,0.6), 0 0 0 1px rgba(94,234,212,0.3);
     }
     .dl-btn:hover { transform: scale(0.96); opacity: 0.9; }
     .dl-btn svg   { width: 15px; height: 15px; }
@@ -552,7 +524,7 @@
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-dot purple"></span>
-        <span class="stat-num">3 Apps</span>
+        <span class="stat-num">4 Apps</span>
       </div>
       <div class="stat">
         <span class="stat-dot blue"></span>
@@ -576,11 +548,11 @@
     <div class="card">
       <div class="card-top">
         <img class="app-logo" src="logo-expense.png" alt="Expense Tracker Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-        <div class="card-icon purple">💰</div>
+        <div class="card-icon">💰</div>
         <div class="card-body">
           <div class="card-name">Expense Tracker</div>
         </div>
-        <a class="dl-btn purple" data-key="mindflux-expense-tracker" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/expensetracker.apk" target="_blank" rel="noopener">
+        <a class="dl-btn" data-key="mindflux-expense-tracker" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/expensetracker.apk" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
           Download
         </a>
@@ -605,11 +577,11 @@
     <div class="card">
       <div class="card-top">
         <img class="app-logo" src="logo-habit.png" alt="Habit Flow Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-        <div class="card-icon blue">🔁</div>
+        <div class="card-icon">🔁</div>
         <div class="card-body">
           <div class="card-name">Habit Flow</div>
         </div>
-        <a class="dl-btn blue" data-key="mindflux-habit-flow" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/habitflow.apk" target="_blank" rel="noopener">
+        <a class="dl-btn" data-key="mindflux-habit-flow" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/habitflow.apk" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
           Download
         </a>
@@ -632,11 +604,11 @@
     <div class="card">
       <div class="card-top">
         <img class="app-logo" src="logo-sustalk.png" alt="Sus Talk Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-        <div class="card-icon pink">🕵️</div>
+        <div class="card-icon">🕵️</div>
         <div class="card-body">
           <div class="card-name">Sus Talk</div>
         </div>
-        <a class="dl-btn pink" data-key="mindflux-sus-talk" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/sustalk.apk" target="_blank" rel="noopener">
+        <a class="dl-btn" data-key="mindflux-sus-talk" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/sustalk.apk" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
           Download
         </a>
@@ -656,6 +628,34 @@
       </div>
     </div>
 
+    <!-- Fee Manager -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-feemanager.jpg" alt="Fee Manager Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon">📋</div>
+        <div class="card-body">
+          <div class="card-name">Fee Manager</div>
+        </div>
+        <a class="dl-btn" data-key="mindflux-fee-manager" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/feemanager.apk" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="card-desc">An offline-first app for tutors and small coaching classes to track student fees, batches and monthly payments. Sends WhatsApp fee reminders to parents and works entirely without internet — all data stays private on your device.</div>
+      <div class="card-tags">
+        <span class="tag">Education</span>
+        <span class="tag">Finance</span>
+        <span class="tag size-tag">📦 8 MB</span>
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="fee1.png" alt="Screenshot 1" />
+        <img class="ss" src="fee2.png" alt="Screenshot 2" />
+        <img class="ss" src="fee3.png" alt="Screenshot 3" />
+        <img class="ss" src="fee4.png" alt="Screenshot 4" />
+        <img class="ss" src="fee5.png" alt="Screenshot 5" />
+      </div>
+    </div>
+
   </div>
 
   <!-- EXTENSIONS -->
@@ -664,14 +664,14 @@
   <div class="cards">
 
     <!-- Posture Guard -->
-    <div class="card card-teal">
+    <div class="card">
       <div class="card-top">
         <img class="app-logo" src="logo-posture.jpg" alt="Posture Guard Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-        <div class="card-icon teal">🧍</div>
+        <div class="card-icon">🧍</div>
         <div class="card-body">
           <div class="card-name">Posture Guard</div>
         </div>
-        <a class="dl-btn teal" data-key="mindflux-posture-guard" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/PostureGuard.zip" target="_blank" rel="noopener">
+        <a class="dl-btn" data-key="mindflux-posture-guard" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/PostureGuard.zip" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
           Download
         </a>
