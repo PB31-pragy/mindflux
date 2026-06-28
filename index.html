@@ -97,6 +97,7 @@
       max-width: 900px;
       margin: 0 auto;
       padding: 0 24px 80px;
+      overflow: visible;
     }
 
     /* ── NAV ── */
@@ -159,30 +160,207 @@
       box-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
     }
 
+    /* ── PENDANT LIGHT ── */
+    /*
+     * The pendant pivot is anchored above the h1 (computed by JS at runtime).
+     * All pendant elements are position:fixed so they sit in viewport space,
+     * completely independent of the scrollable page layout.
+     *
+     * Structure:
+     *   #pPivot   — fixed point at computed pivot x,y (top of cord)
+     *     #pArm   — rotated by JS (transform-origin: 0 0 at pivot)
+     *       #pCord  — the visible cord line
+     *       #pBulb  — the glowing bulb, placed at arm tip
+     *   #pCone  — separate fixed div, tracks bulbX/bulbY each frame
+     */
+
+    #pPivot {
+      position: absolute;
+      /* left/top set by JS relative to hero section */
+      width: 0; height: 0;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* pArm rotates around its own origin (0,0) = the pivot point */
+    #pArm {
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 0;
+      transform-origin: 0 0;
+      /* JS sets transform: rotate(Xdeg) */
+    }
+
+    /* Cord: thin vertical line from arm origin downward */
+    #pCord {
+      position: absolute;
+      top: 0;
+      left: -0.75px;
+      width: 1.5px;
+      background: linear-gradient(
+        to bottom,
+        rgba(200,180,255,0.0)  0%,
+        rgba(200,180,255,0.65) 6%,
+        rgba(200,180,255,0.65) 72%,
+        rgba(200,180,255,0.0) 100%
+      );
+    }
+
+    /* Bulb: sits at end of cord, centred on arm axis */
+    #pBulb {
+      position: absolute;
+      /* top set by JS = cordLen - BULB_H (same as cord height) */
+      left: -9px; /* half of 18px width, centres on arm axis */
+      width: 18px;
+      height: 24px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      background: radial-gradient(ellipse at 38% 32%, #fffff0 0%, #fff8cc 45%, #f0c830 100%);
+      box-shadow:
+        0 0  8px 3px  rgba(255,230,80, 0.7),
+        0 0 18px 6px  rgba(255,200,50, 0.3),
+        0 0 36px 10px rgba(255,170,0,  0.12);
+      animation: pBulbPulse 2.8s ease-in-out infinite;
+      z-index: 2;
+    }
+    @keyframes pBulbPulse {
+      0%,100% { box-shadow: 0 0  8px 3px rgba(255,230,80,0.7), 0 0 22px 8px rgba(255,200,50,0.35), 0 0 50px 16px rgba(255,170,0,0.18); }
+      50%     { box-shadow: 0 0 12px 5px rgba(255,240,100,0.8), 0 0 30px 12px rgba(255,215,60,0.45), 0 0 65px 22px rgba(255,185,0,0.25); }
+    }
+
+    /* Descent animation — only animates #pPivot's translateY */
+    @keyframes pDescend {
+      from { transform: translate(var(--px), -120px); }
+      to   { transform: translate(var(--px), var(--py)); }
+    }
+
+    /* Cone: separate fixed element, JS moves left/top to track bulb */
+    #pCone {
+      position: absolute;
+      width: 480px;
+      height: 100vh; /* spans full viewport so glow runs from top */
+      pointer-events: none;
+      z-index: 9;
+      transform: translateX(-50%);
+      background: radial-gradient(
+        ellipse 50% 100% at 50% 0%,
+        rgba(255,235,140,0.14) 0%,
+        rgba(255,225,90, 0.06) 40%,
+        transparent 100%
+      );
+      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Ambient glow that stays after pendulum rests */
+    #pAmbient {
+      position: absolute;
+      width: 600px; height: 300px;
+      pointer-events: none;
+      z-index: 8;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse at 50% 20%,
+        rgba(255,215,70, 0.06) 0%,
+        rgba(180,100,255,0.04) 55%,
+        transparent 80%
+      );
+      opacity: 0;
+      transition: opacity 1.6s ease;
+    }
+
+    /* ── HERO HEADING ── */
+    .hero { position: relative; overflow: visible; }
+
     .hero h1 {
       font-size: clamp(52px, 10vw, 100px);
       font-weight: 900;
       line-height: 0.95;
       letter-spacing: -4px;
       margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.7s ease 0.2s forwards;
       text-transform: uppercase;
+      position: relative;   /* stacking context for .h1-hot */
+      /* start invisible; JS fades in after measuring position */
+      opacity: 0;
+      transition: opacity 0.8s ease;
     }
+    /* h1 becomes visible when JS adds this class */
+    .hero h1.h1-visible { opacity: 1; }
 
     .hero h1 .line1 {
       display: block;
-      color: #fff;
-      text-shadow: 0 0 40px rgba(168,85,247,0.5);
+      color: rgba(255,255,255,0.65);
+      text-shadow: 0 0 40px rgba(168,85,247,0.3);
     }
-
     .hero h1 .line2 {
       display: block;
       background: linear-gradient(135deg, #c084fc, #e879f9, #f472b6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 30px rgba(192,132,252,0.6));
+      filter: brightness(1.15);
+      transition: filter 0.35s ease;
+    }
+    .hero h1 .line2.lit { filter: brightness(0.55); }
+
+    /*
+     * .h1-hot: pixel-identical copy of the h1 text, stacked on top.
+     * Inherits every font property so there is zero misalignment.
+     * clip-path is updated every rAF frame to follow the bulb position.
+     * When clip radius = 0, the overlay is fully hidden.
+     * When it grows, bright text is revealed exactly where the light falls.
+     */
+    /*
+     * .h1-hot: bright overlay clipped to the light circle.
+     *
+     * IMPORTANT: -webkit-background-clip:text on a child element breaks
+     * the parent's clip-path in Blink/WebKit — the two clip mechanisms
+     * conflict and the gradient line renders inverted/dark.
+     *
+     * Fix: clip-path is applied directly to EACH SPAN individually,
+     * not to the parent div. Both spans get the same circle value,
+     * set by JS each frame via the two vars --clip-line1 / --clip-line2
+     * (actually we just target both children directly in JS).
+     *
+     * line2 in the hot overlay uses a solid bright color — no
+     * background-clip:text — so there is zero stacking conflict.
+     */
+    /* Single clip on parent = one unified light arc over both lines */
+    .h1-hot {
+      position: absolute;
+      inset: 0;
+      font-size:      inherit;
+      font-weight:    inherit;
+      font-family:    inherit;
+      line-height:    inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      pointer-events: none;
+      user-select: none;
+      margin: 0; padding: 0;
+      /* mask instead of clip-path — gives soft feathered edge instead of hard border */
+      -webkit-mask-image: radial-gradient(circle at 50% -30px, black 0%, black 30%, transparent 70%);
+      mask-image:         radial-gradient(circle at 50% -30px, black 0%, black 30%, transparent 70%);
+      -webkit-mask-size: 0px 0px;
+      mask-size: 0px 0px;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      /* clip-path removed — mask handles the soft reveal */
+    }
+    .h1-hot .line1 {
+      display: block;
+      color: #ffffff;
+      -webkit-text-fill-color: #ffffff;
+      text-shadow: 0 0 16px rgba(255,235,130,0.6), 0 0 30px rgba(255,210,80,0.3);
+      /* NO clip-path here */
+    }
+    .h1-hot .line2 {
+      display: block;
+      /* Solid color only — no background-clip:text — so parent clip-path works */
+      color: #6b21a8;
+      -webkit-text-fill-color: #6b21a8;
+      /* NO clip-path here */
     }
 
     .hero-sub {
@@ -506,6 +684,16 @@
 
 <div class="wrapper">
 
+  <!-- PENDANT: absolute inside wrapper, starts from very top of page -->
+  <div id="pPivot">
+    <div id="pArm">
+      <div id="pCord"></div>
+      <div id="pBulb"></div>
+    </div>
+  </div>
+  <div id="pCone"></div>
+  <div id="pAmbient"></div>
+
   <!-- NAV -->
   <nav>
     <a class="logo" href="#">Mind<span class="dot">.</span>Flux</a>
@@ -515,9 +703,13 @@
   <!-- HERO -->
   <section class="hero">
 
-    <h1>
+    <h1 id="heroH1">
       <span class="line1">Apps that</span>
-      <span class="line2">actually matter.</span>
+      <span class="line2" id="h1Line2">actually matter.</span>
+      <div class="h1-hot" id="h1Hot" aria-hidden="true">
+        <span class="line1">Apps that</span>
+        <span class="line2">actually matter.</span>
+      </div>
     </h1>
     <p class="hero-sub">Thoughtfully built Android apps designed to simplify your daily life — one problem at a time.</p>
 
@@ -856,5 +1048,250 @@
   moveRocket();
 </script>
 
+
+
+
+<script>
+/*
+ * PENDANT LIGHT — clean rewrite
+ *
+ * Key design decisions that eliminate all previous bugs:
+ *
+ * 1. PIVOT ABOVE H1: pivot x = h1 bounding box centre (not screen centre).
+ *    Measured after a short delay so h1 is rendered at its true position.
+ *
+ * 2. ONE COORDINATE SPACE: everything in viewport px.
+ *    bulbX = pivotX + sin(angle) * cordLen  (viewport px)
+ *    bulbY = pivotY + cos(angle) * cordLen  (viewport px)
+ *
+ * 3. CORD NEVER TOUCHES BULB: cord height = cordLen - BULB_H.
+ *    Bulb top = cordLen - BULB_H from arm origin. Same value → perfect join.
+ *
+ * 4. CLIP-PATH IN ELEMENT SPACE: h1Hot has inset:0 over heroH1.
+ *    clip-path origin = h1Rect.left, h1Rect.top (viewport px).
+ *    So: clipX = bulbX - h1Rect.left,  clipY = bulbY - h1Rect.top.
+ *    No negation, no percentage conversion needed.
+ *
+ * 5. H1 MEASURED BEFORE ANIMATION: h1 starts opacity:0, JS measures its
+ *    rect, then sets pivot, then fades h1 in. No stale geometry.
+ */
+
+const pPivot   = document.getElementById('pPivot');
+const pArm     = document.getElementById('pArm');
+const pCord    = document.getElementById('pCord');
+const pBulb    = document.getElementById('pBulb');
+const pCone    = document.getElementById('pCone');
+const pAmbient = document.getElementById('pAmbient');
+const heroH1   = document.getElementById('heroH1');
+const h1Hot    = document.getElementById('h1Hot');
+const h1Line2  = document.getElementById('h1Line2');
+// Individual spans inside h1Hot — clip-path applied to each separately
+// to avoid conflict with -webkit-background-clip:text on line2
+/* hotLine1/hotLine2 not needed — clip applied to h1Hot parent */
+
+const BULB_H = 24;   // px — bulb element height
+const GAP    = 20;   // px — gap between bulb bottom and h1 top
+
+// Physics config
+const CFG = {
+  initialAngleDeg : 24,
+  damping         : 0.988,
+  restThreshold   : 0.005,
+  gravity         : 9.8,
+};
+
+let pivotX = 0, pivotY = 0, cordLen = 0;
+let angle  = -CFG.initialAngleDeg * Math.PI / 180;
+let angVel = 0;
+let resting = false;
+let lastT   = null;
+let rafId   = null;
+
+/* ── SETUP ──────────────────────────────────────────────────────
+ * Called once after h1 is rendered (opacity:0 but laid out).
+ * Sets pivot above h1 centre, sizes cord. */
+function setup() {
+  const wrapRect = document.querySelector('.wrapper').getBoundingClientRect();
+  const h1Rect   = heroH1.getBoundingClientRect();
+
+  // Pivot x: centred over h1, relative to wrapper left edge
+  pivotX = h1Rect.left - wrapRect.left + h1Rect.width / 2;
+
+  // Cord length: from very top of wrapper down to GAP above h1
+  // This means the cord starts from the extreme top of the page
+  cordLen = (h1Rect.top - wrapRect.top) - GAP;
+  cordLen = Math.max(cordLen, 60);
+
+  pivotY = 0; // pivot at wrapper top (y=0)
+
+  // Position pivot at wrapper top
+  pPivot.style.left = pivotX + 'px';
+  pPivot.style.top  = '0px';
+
+  // Cord height stops at bulb top
+  pCord.style.height = (cordLen - BULB_H) + 'px';
+
+  // Bulb at arm tip
+  pBulb.style.top = (cordLen - BULB_H) + 'px';
+
+  // Cone: from wrapper top, centred on pivot x
+  pCone.style.top  = '0px';
+  pCone.style.left = pivotX + 'px';
+
+  // Ambient at h1 vertical centre in wrapper-local coords
+  pAmbient.style.left = pivotX + 'px';
+  pAmbient.style.top  = (h1Rect.top - wrapRect.top + h1Rect.height / 2) + 'px';
+}
+
+/* ── PHYSICS ─────────────────────────────────────────────────── */
+function tick(dt) {
+  if (resting) return;
+  const L     = cordLen / 280;
+  const alpha = -(CFG.gravity / L) * Math.sin(angle);
+  angVel += alpha * dt;
+  angVel *= CFG.damping;
+  angle  += angVel * dt;
+  if (Math.abs(angle) < CFG.restThreshold && Math.abs(angVel) < CFG.restThreshold) {
+    angle = 0; angVel = 0; resting = true;
+    onRest();
+  }
+}
+
+/* ── RENDER ──────────────────────────────────────────────────── */
+function render() {
+  const deg = angle * 180 / Math.PI;
+  pArm.style.transform = `rotate(${deg}deg)`;
+
+  // Bulb tip in wrapper-local px
+  const bulbX = pivotX + Math.sin(angle) * cordLen;
+  const bulbY = pivotY + Math.cos(angle) * cordLen;
+
+  // Cone tracks bulb x
+  pCone.style.left = bulbX + 'px';
+
+  // ── Clip-path ───────────────────────────────────────────────
+  // Convert wrapper-local bulb → viewport px
+  const wrapRect = document.querySelector('.wrapper').getBoundingClientRect();
+  const r        = heroH1.getBoundingClientRect();
+  const bulbVX   = wrapRect.left + bulbX;
+
+  // beamX: where the light beam lands on the h1 horizontally (h1-local px)
+  const beamX = bulbVX - r.left;
+  // Mirror so hotspot moves OPPOSITE to bulb direction
+  const clipX = r.width - beamX;
+  // clipY: light comes from above h1, so negative (above element top)
+  const clipY = -30;
+
+  // Tight radius — shrinks further from h1 centre
+  const distFromCentre = Math.abs(beamX - r.width / 2);
+  const baseR = r.height * 0.75 + 30;
+  const hotR  = Math.max(baseR - distFromCentre * 0.3, 80);
+
+  // Soft mask — radial gradient from light origin, fades to transparent
+  // Gradient covers the full h1 element (100% 100%), origin is where light hits
+  // Inner solid zone (0–30%) then soft feather out to transparent at 75%
+  const grad = `radial-gradient(${hotR * 1.4}px ${hotR * 1.4}px at ${clipX}px ${clipY}px, black 0%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.3) 60%, transparent 75%)`;
+  h1Hot.style.webkitMaskImage = grad;
+  h1Hot.style.maskImage       = grad;
+  h1Hot.style.webkitMaskSize  = '100% 100%';
+  h1Hot.style.maskSize        = '100% 100%';
+
+  if (distFromCentre < r.width * 0.5) {
+    h1Line2.classList.add('lit');
+  } else {
+    h1Line2.classList.remove('lit');
+  }
+}
+
+/* ── RAF LOOP ────────────────────────────────────────────────── */
+function loop(t) {
+  if (lastT === null) lastT = t;
+  const dt = Math.min((t - lastT) / 1000, 0.05);
+  lastT = t;
+  tick(dt);
+  render();
+  if (!resting) rafId = requestAnimationFrame(loop);
+}
+
+/* ── ON REST ─────────────────────────────────────────────────── */
+function onRest() {
+  render();
+  const r = heroH1.getBoundingClientRect();
+  // Small soft glow at top-centre — light resting just above heading
+  const restGrad = `radial-gradient(circle at ${r.width/2}px -20px, black 0%, black 30%, transparent 68%)`;
+  h1Hot.style.transition = '-webkit-mask-image 1.6s ease, mask-image 1.6s ease';
+  h1Hot.style.webkitMaskImage = restGrad;
+  h1Hot.style.maskImage       = restGrad;
+  h1Hot.style.webkitMaskSize  = '100% 100%';
+  h1Hot.style.maskSize        = '100% 100%';
+  h1Line2.classList.add('lit');
+  pAmbient.style.opacity = '1';
+  // Fade out the cone — it causes a visible edge artifact when stationary
+  pCone.style.transition = 'opacity 0.8s ease';
+  pCone.style.opacity = '0';
+}
+
+/* ── INIT ────────────────────────────────────────────────────── */
+function init() {
+  // h1 is opacity:0 but laid out — safe to measure now
+  setup();
+
+  // Animate pivot descending from above viewport
+  pPivot.style.transform = `translate(0px, -120px)`;
+  pPivot.style.transition = 'transform 900ms cubic-bezier(0.22, 1, 0.36, 1)';
+  // Force reflow so transition fires
+  pPivot.getBoundingClientRect();
+  pPivot.style.transform = 'translate(0px, 0px)';
+
+  // Fade in cone shortly after descent starts
+  setTimeout(() => { pCone.style.opacity = '1'; }, 680);
+
+  // Fade in h1, then start physics
+  setTimeout(() => {
+    heroH1.classList.add('h1-visible');
+    lastT = null;
+    rafId = requestAnimationFrame(loop);
+  }, 800);
+}
+
+/* ── RESIZE ──────────────────────────────────────────────────── */
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(rafId);
+  setup();
+  if (!resting) { lastT = null; rafId = requestAnimationFrame(loop); }
+  else render();
+});
+
+/* On scroll: recalculate pivot and re-render so bulb tracks correctly
+   even when the user fast-scrolls. rAF-throttled to stay at 60fps. */
+let scrollRaf = null;
+window.addEventListener('scroll', () => {
+  if (scrollRaf) return;
+  scrollRaf = requestAnimationFrame(() => {
+    scrollRaf = null;
+    setup();
+    render();
+  });
+}, { passive: true });
+
+/* ── START ───────────────────────────────────────────────────── */
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  setup();
+  heroH1.classList.add('h1-visible');
+  resting = true; angle = 0;
+  render();
+  pCone.style.opacity = '1';
+  pAmbient.style.opacity = '1';
+  const r = heroH1.getBoundingClientRect();
+  h1Hot.style.webkitMaskImage = `radial-gradient(circle at ${r.width/2}px -20px, black 0%, black 30%, transparent 68%)`;
+  h1Hot.style.maskImage       = `radial-gradient(circle at ${r.width/2}px -20px, black 0%, black 30%, transparent 68%)`;
+  h1Hot.style.webkitMaskSize  = '100% 100%';
+  h1Hot.style.maskSize        = '100% 100%';
+  h1Line2.classList.add('lit');
+} else {
+  // Small delay to ensure layout is complete and h1 is at its true position
+  requestAnimationFrame(() => requestAnimationFrame(init));
+}
+</script>
 </body>
 </html>
