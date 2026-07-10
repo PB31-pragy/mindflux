@@ -568,6 +568,38 @@
     .dl-btn:hover { transform: scale(0.96); opacity: 0.9; }
     .dl-btn svg   { width: 15px; height: 15px; }
 
+    /* DOWNLOAD BUTTON GROUP (for cards with multiple platform links) */
+    .dl-btn-group {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* iOS SECONDARY BUTTON */
+    .ios-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 20px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+      transition: transform 0.2s, opacity 0.2s, background 0.2s;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.35);
+      color: rgba(192,132,252,0.9);
+    }
+    .ios-btn:hover { transform: scale(0.96); background: rgba(168,85,247,0.2); }
+    .ios-btn svg   { width: 12px; height: 12px; }
+
     /* SCREENSHOTS */
     .screenshots-scroll {
       display: flex;
@@ -667,6 +699,8 @@
       .card { padding: 20px; }
       .card-top { flex-wrap: wrap; }
       .dl-btn { width: 100%; justify-content: center; margin-top: 4px; }
+      .dl-btn-group { width: 100%; }
+      .ios-btn { width: 100%; }
       .coming-soon-btn { width: 100%; justify-content: center; margin-top: 4px; }
       footer { flex-direction: column; align-items: flex-start; }
     }
@@ -711,12 +745,12 @@
         <span class="line2">actually matter.</span>
       </div>
     </h1>
-    <p class="hero-sub">Thoughtfully built Android apps designed to simplify your daily life — one problem at a time.</p>
+    <p class="hero-sub">Thoughtfully built Android apps and iOS PWAs designed to simplify your daily life — one problem at a time.</p>
 
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-dot purple"></span>
-        <span class="stat-num">3 Apps</span>
+        <span class="stat-num">5 Uploads</span>
       </div>
       <div class="stat">
         <span class="stat-dot blue"></span>
@@ -725,7 +759,7 @@
       </div>
       <div class="stat">
         <span class="stat-dot pink"></span>
-        <span class="stat-num">Android</span>
+        <span class="stat-num">Android/iOS PWA</span>
         <span class="stat-label">Platform</span>
       </div>
     </div>
@@ -744,10 +778,16 @@
         <div class="card-body">
           <div class="card-name">Expense Tracker</div>
         </div>
-        <a class="dl-btn" data-key="mindflux-expense-tracker" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/expensetracker.apk" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
-          Download
-        </a>
+        <div class="dl-btn-group">
+          <a class="dl-btn" data-key="mindflux-expense-tracker" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/expensetracker.apk" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+            Download
+          </a>
+          <a class="ios-btn" href="https://joyful-duckanoo-65135b.netlify.app/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 37.6 59 129.3 107.2 127.8 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-84.1 102.6-121.8-65.2-30.7-61.7-90-61.7-91.9zM256.4 88.9c26.3-31.2 23.9-59.6 23.2-69.9-23.3 1.4-50.3 16-65.9 34.1-17.2 19.5-27.3 43.6-25.2 69.4 24.7 1.9 47.2-10.7 67.9-33.6z"/></svg>
+            iOS
+          </a>
+        </div>
       </div>
       <div class="card-desc">Track your daily spending across multiple wallets — cash, UPI, cards and more — all in one place. Know exactly where your money goes.</div>
       <div class="card-tags">
