@@ -941,7 +941,6 @@
 <script>
   // ── DOWNLOAD COUNTER using api.counterapi.dev (free & working) ──
   const counterConfig = [
-    { key: 'mf-expense-v1', id: 'count-expense', btnKey: 'mindflux-expense-tracker', base: 250 },
     { key: 'mf-habit-v1',   id: 'count-habit',   btnKey: 'mindflux-habit-flow',      base: 15 },
     { key: 'mf-sustalk-v1', id: 'count-sus',     btnKey: 'mindflux-sus-talk',        base: 11 },
   ];
@@ -972,6 +971,30 @@
         .catch(() => {});
     });
   });
+</script>
+
+<script>
+  // ── EXPENSE TRACKER: real download count pulled from GitHub Releases API ──
+  // GitHub tracks the actual number of times a release asset has been
+  // downloaded — no third-party service needed, and it only counts
+  // completed downloads (not just button clicks).
+  // EXPENSE_BASE = downloads that happened before this asset was
+  // re-uploaded / before tracking started (manual offset).
+  const EXPENSE_BASE = 250;
+
+  fetch('https://api.github.com/repos/PB31-pragy/mindflux/releases/tags/v1.0')
+    .then(r => r.json())
+    .then(data => {
+      const el = document.getElementById('count-expense');
+      if (!el || !data.assets) return;
+      const asset = data.assets.find(a => a.name === 'expensetracker.apk');
+      if (asset && typeof asset.download_count === 'number') {
+        el.textContent = '⬇ ' + (asset.download_count + EXPENSE_BASE) + ' downloads';
+      }
+    })
+    .catch(() => {
+      // Leave the static "⬇ 250 downloads" fallback already in the HTML
+    });
 </script>
 <script>
   const glow = document.getElementById('cursorGlow');
