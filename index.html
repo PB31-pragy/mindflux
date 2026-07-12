@@ -982,7 +982,7 @@
   // re-uploaded / before tracking started (manual offset).
   const EXPENSE_BASE = 250;
 
-  fetch('https://api.github.com/repos/PB31-pragy/mindflux/releases/tags/v1.0')
+  fetch('https://api.github.com/repos/PB31-pragy/mindflux/releases/tags/v1.0?t=' + Date.now(), { cache: 'no-store' })
     .then(r => r.json())
     .then(data => {
       const el = document.getElementById('count-expense');
