@@ -600,4 +600,779 @@
     .ios-btn:hover { transform: scale(0.96); background: rgba(168,85,247,0.2); }
     .ios-btn svg   { width: 12px; height: 12px; }
 
-    /*
+    /* SCREENSHOTS */
+    .screenshots-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-top: 20px;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(168,85,247,0.3) transparent;
+    }
+    .screenshots-scroll::-webkit-scrollbar { height: 4px; }
+    .screenshots-scroll::-webkit-scrollbar-track { background: transparent; }
+    .screenshots-scroll::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 999px; }
+
+    .ss {
+      height: 220px;
+      width: auto;
+      border-radius: 12px;
+      flex-shrink: 0;
+      border: 1px solid rgba(168,85,247,0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+    }
+    .ss:hover { transform: scale(1.03); }
+
+    .size-tag {
+      color: rgba(192,132,252,0.9) !important;
+      border-color: rgba(168,85,247,0.4) !important;
+      background: rgba(124,58,237,0.15) !important;
+    }
+
+    /* COMING SOON */
+    .coming-soon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 11px 18px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.02em;
+      color: rgba(192,132,252,0.4);
+      background: rgba(124,58,237,0.06);
+      border: 1px solid rgba(168,85,247,0.15);
+      flex-shrink: 0;
+      white-space: nowrap;
+      cursor: default;
+    }
+
+    /* ── CURSOR GLOW ── */
+    .cursor-glow {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle,
+        rgba(200,130,255,0.25) 0%,
+        rgba(168,85,247,0.12) 30%,
+        rgba(124,58,237,0.04) 60%,
+        transparent 70%
+      );
+      mix-blend-mode: screen;
+      filter: blur(6px);
+      will-change: left, top;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 72px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(168,85,247,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.9s forwards;
+    }
+    .footer-logo {
+      font-size: 15px; font-weight: 800;
+      color: var(--muted);
+      text-shadow: 0 0 16px rgba(168,85,247,0.4);
+    }
+    .footer-logo .dot { color: var(--neon); }
+    .footer-note { font-size: 13px; color: var(--muted2); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .hero { padding: 64px 0 56px; }
+      .hero h1 { letter-spacing: -2px; }
+      .stat { padding: 10px 14px; }
+      .stat-label { display: none; }
+      .card { padding: 20px; }
+      .card-top { flex-wrap: wrap; }
+      .dl-btn { width: 100%; justify-content: center; margin-top: 4px; }
+      .dl-btn-group { width: 100%; }
+      .ios-btn { width: 100%; }
+      .coming-soon-btn { width: 100%; justify-content: center; margin-top: 4px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="bg"></div>
+<div class="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="orb orb4"></div>
+
+<div class="wrapper">
+
+  <!-- PENDANT: absolute inside wrapper, starts from very top of page -->
+  <div id="pPivot">
+    <div id="pArm">
+      <div id="pCord"></div>
+      <div id="pBulb"></div>
+    </div>
+  </div>
+  <div id="pCone"></div>
+  <div id="pAmbient"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">Mind<span class="dot">.</span>Flux</a>
+    <div class="nav-pill">by Pragy B</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <h1 id="heroH1">
+      <span class="line1">Apps that</span>
+      <span class="line2" id="h1Line2">actually matter.</span>
+      <div class="h1-hot" id="h1Hot" aria-hidden="true">
+        <span class="line1">Apps that</span>
+        <span class="line2">actually matter.</span>
+      </div>
+    </h1>
+    <p class="hero-sub">Thoughtfully built Android apps and iOS PWAs designed to simplify your daily life — one problem at a time.</p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-dot purple"></span>
+        <span class="stat-num">5 Uploads</span>
+      </div>
+      <div class="stat">
+        <span class="stat-dot blue"></span>
+        <span class="stat-num">Free</span>
+        <span class="stat-label">Always</span>
+      </div>
+      <div class="stat">
+        <span class="stat-dot pink"></span>
+        <span class="stat-num">Android/iOS PWA</span>
+        <span class="stat-label">Platform</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPS -->
+  <div class="section-header"><span>All Apps</span></div>
+
+  <div class="cards">
+
+    <!-- Expense Tracker -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-expense.png" alt="Expense Tracker Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon">💰</div>
+        <div class="card-body">
+          <div class="card-name">Expense Tracker</div>
+        </div>
+        <div class="dl-btn-group">
+          <a class="dl-btn" data-key="mindflux-expense-tracker" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/expensetracker.apk" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+            Download
+          </a>
+          <a class="ios-btn" href="https://joyful-duckanoo-65135b.netlify.app/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 37.6 59 129.3 107.2 127.8 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-84.1 102.6-121.8-65.2-30.7-61.7-90-61.7-91.9zM256.4 88.9c26.3-31.2 23.9-59.6 23.2-69.9-23.3 1.4-50.3 16-65.9 34.1-17.2 19.5-27.3 43.6-25.2 69.4 24.7 1.9 47.2-10.7 67.9-33.6z"/></svg>
+            iOS
+          </a>
+        </div>
+      </div>
+      <div class="card-desc">Track your daily spending across multiple wallets — cash, UPI, cards and more — all in one place. Know exactly where your money goes.</div>
+      <div class="card-tags">
+        <span class="tag">Finance</span>
+        <span class="tag">Productivity</span>
+        <span class="tag size-tag">📦 6.5 MB</span>
+        <span class="tag size-tag" id="count-expense">⬇ 250 downloads</span>
+
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="ss1.png" alt="Screenshot 1" />
+        <img class="ss" src="ss2.png" alt="Screenshot 2" />
+        <img class="ss" src="ss3.png" alt="Screenshot 3" />
+        <img class="ss" src="ss4.png" alt="Screenshot 4" />
+        <img class="ss" src="ss5.png" alt="Screenshot 5" />
+      </div>
+    </div>
+
+    <!-- Habit Flow -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-habit.png" alt="Habit Flow Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon">🔁</div>
+        <div class="card-body">
+          <div class="card-name">Habit Flow</div>
+        </div>
+        <a class="dl-btn" data-key="mindflux-habit-flow" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/habitflow.apk" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="card-desc">Build habits that actually stick. Set up daily routines with 4 different reminder types — so you never miss what matters most.</div>
+      <div class="card-tags">
+        <span class="tag">Lifestyle</span>
+        <span class="tag">Habits</span>
+        <span class="tag size-tag">📦 5.75 MB</span>
+
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="hab1.png" alt="Screenshot 1" />
+        <img class="ss" src="hab2.png" alt="Screenshot 2" />
+        <img class="ss" src="hab3.png" alt="Screenshot 3" />
+      </div>
+    </div>
+
+    <!-- Fee Manager -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-feemanager.jpg" alt="Fee Manager Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon">📋</div>
+        <div class="card-body">
+          <div class="card-name">Fee Manager</div>
+        </div>
+        <a class="dl-btn" data-key="mindflux-fee-manager" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/feemanager.apk" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="card-desc">An offline-first app for tutors and small coaching classes to track student fees, batches and monthly payments. Sends WhatsApp fee reminders to parents and works entirely without internet — all data stays private on your device.</div>
+      <div class="card-tags">
+        <span class="tag">Education</span>
+        <span class="tag">Finance</span>
+        <span class="tag size-tag">📦 6.61 MB</span>
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="fee1.png" alt="Screenshot 1" />
+        <img class="ss" src="fee2.png" alt="Screenshot 2" />
+        <img class="ss" src="fee3.png" alt="Screenshot 3" />
+        <img class="ss" src="fee4.png" alt="Screenshot 4" />
+        <img class="ss" src="fee5.png" alt="Screenshot 5" />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GAMES -->
+  <div class="section-header" style="margin-top: 56px;"><span>Games</span></div>
+
+  <div class="cards">
+
+    <!-- Sus Talk -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-sustalk.png" alt="Sus Talk Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon">🕵️</div>
+        <div class="card-body">
+          <div class="card-name">Sus Talk</div>
+        </div>
+        <a class="dl-btn" data-key="mindflux-sus-talk" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/sustalk.apk" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="card-desc">A party word game where one player is the imposter — they don't know the real word but must bluff their way through. Can your group sniff them out?</div>
+      <div class="card-tags">
+        <span class="tag">Game</span>
+        <span class="tag">Party</span>
+        <span class="tag size-tag">📦 7.45 MB</span>
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="sus1.png" alt="Screenshot 1" />
+        <img class="ss" src="sus2.png" alt="Screenshot 2" />
+        <img class="ss" src="sus3.png" alt="Screenshot 3" />
+        <img class="ss" src="sus4.png" alt="Screenshot 4" />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXTENSIONS -->
+  <div class="section-header" style="margin-top: 56px;"><span>Extensions</span></div>
+
+  <div class="cards">
+
+    <!-- Posture Guard -->
+    <div class="card">
+      <div class="card-top">
+        <img class="app-logo" src="logo-posture.jpg" alt="Posture Guard Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="card-icon">🧍</div>
+        <div class="card-body">
+          <div class="card-name">Posture Guard</div>
+        </div>
+        <a class="dl-btn" data-key="mindflux-posture-guard" href="https://github.com/PB31-pragy/mindflux/releases/download/v1.0/PostureGuard.zip" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+      <div class="card-desc">A smart Chrome extension that watches your posture in real time using your webcam and gently reminds you the moment you start slouching — so you stay upright without even thinking about it.</div>
+      <div class="card-tags">
+        <span class="tag">Productivity</span>
+        <span class="tag">Health</span>
+        <span class="tag size-tag">🧩 Chrome Extension</span>
+      </div>
+      <div class="screenshots-scroll">
+        <img class="ss" src="pg1.png" alt="Screenshot 1" />
+        <img class="ss" src="pg2.png" alt="Screenshot 2" />
+        <img class="ss" src="pg3.png" alt="Screenshot 3" />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Mind<span class="dot">.</span>Flux</div>
+    <div class="footer-note">Made by Pragy B &nbsp;·&nbsp; All apps free to download</div>
+  </footer>
+
+</div>
+
+<script>
+  // ── DOWNLOAD COUNTER using api.counterapi.dev (free & working) ──
+  const counterConfig = [
+    { key: 'mf-habit-v1',   id: 'count-habit',   btnKey: 'mindflux-habit-flow',      base: 15 },
+    { key: 'mf-sustalk-v1', id: 'count-sus',     btnKey: 'mindflux-sus-talk',        base: 11 },
+  ];
+
+  // Load counts on page load
+  counterConfig.forEach(app => {
+    fetch(`https://counterapi.dev/api/mindfluxpragy/${app.key}/get`)
+      .then(r => r.json())
+      .then(data => {
+        const el = document.getElementById(app.id);
+        if (el && data.count !== undefined) el.textContent = '⬇ ' + (data.count + app.base) + ' downloads';
+      })
+      .catch(() => {});
+  });
+
+  // Increment on download click
+  document.querySelectorAll('.dl-btn[data-key]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const btnKey = btn.getAttribute('data-key');
+      const app = counterConfig.find(a => a.btnKey === btnKey);
+      if (!app) return;
+      fetch(`https://counterapi.dev/api/mindfluxpragy/${app.key}/hit`)
+        .then(r => r.json())
+        .then(data => {
+          const el = document.getElementById(app.id);
+          if (el && data.count !== undefined) el.textContent = '⬇ ' + (data.count + app.base) + ' downloads';
+        })
+        .catch(() => {});
+    });
+  });
+</script>
+
+<script>
+  // ── EXPENSE TRACKER: real download count pulled from GitHub Releases API ──
+  // GitHub tracks the actual number of times a release asset has been
+  // downloaded — no third-party service needed, and it only counts
+  // completed downloads (not just button clicks).
+  // EXPENSE_BASE = downloads that happened before this asset was
+  // re-uploaded / before tracking started (manual offset).
+  const EXPENSE_BASE = 250;
+  const EXPENSE_CACHE_KEY = 'mf_expense_download_count';
+
+  // Show the last known-good count immediately (if we have one cached),
+  // so a failed/rate-limited API call doesn't make the number drop
+  // back down to the static 250 baseline.
+  (function showCachedCount() {
+    const el = document.getElementById('count-expense');
+    const cached = localStorage.getItem(EXPENSE_CACHE_KEY);
+    if (el && cached !== null) {
+      el.textContent = '⬇ ' + cached + ' downloads';
+    }
+  })();
+
+  fetch('https://api.github.com/repos/PB31-pragy/mindflux/releases/tags/v1.0?t=' + Date.now(), { cache: 'no-store' })
+    .then(r => r.json())
+    .then(data => {
+      const el = document.getElementById('count-expense');
+      if (!el || !data.assets) return;
+      const asset = data.assets.find(a => a.name === 'expensetracker.apk');
+      if (asset && typeof asset.download_count === 'number') {
+        const total = asset.download_count + EXPENSE_BASE;
+        el.textContent = '⬇ ' + total + ' downloads';
+        localStorage.setItem(EXPENSE_CACHE_KEY, total);
+      }
+    })
+    .catch(() => {
+      // Fetch failed (rate limit / offline / blocked) — the cached
+      // value shown by showCachedCount() above stays as-is, or the
+      // static "⬇ 250 downloads" baked into the HTML if this is the
+      // visitor's very first visit with nothing cached yet.
+    });
+</script>
+<script>
+  const glow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+  });
+</script>
+
+<canvas id="space-canvas"></canvas>
+
+<style>
+  #space-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .rocket {
+    position: fixed;
+    font-size: 22px;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(192,132,252,0.8));
+    transition: none;
+  }
+</style>
+
+<!-- Rocket -->
+<div class="rocket" id="rocket">🚀</div>
+
+<script>
+  // ── MOVING STARS ──
+  const canvas = document.getElementById('space-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  let W = canvas.width  = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  const stars = Array.from({ length: 120 }, () => ({
+    x:     Math.random() * window.innerWidth,
+    y:     Math.random() * window.innerHeight,
+    r:     Math.random() * 1.5 + 0.3,
+    speed: Math.random() * 0.4 + 0.1,
+    alpha: Math.random() * 0.7 + 0.3,
+    twinkleSpeed: Math.random() * 0.02 + 0.005,
+    twinkleDir: Math.random() > 0.5 ? 1 : -1,
+  }));
+
+  function drawStars() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      // twinkle
+      s.alpha += s.twinkleSpeed * s.twinkleDir;
+      if (s.alpha >= 1)   { s.alpha = 1;   s.twinkleDir = -1; }
+      if (s.alpha <= 0.1) { s.alpha = 0.1; s.twinkleDir =  1; }
+
+      // move downward slowly
+      s.y += s.speed;
+      if (s.y > H + 2) { s.y = -2; s.x = Math.random() * W; }
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  // ── SMOOTH ROCKET FLIGHT ──
+  const rocket = document.getElementById('rocket');
+  let rx = Math.random() * window.innerWidth;
+  let ry = Math.random() * window.innerHeight;
+  let rAngle = Math.random() * 360; // degrees, tip direction
+  let rSpeed = 1.5;
+  let rTurnRate = 0; // current turn rate
+  let rTurnTarget = 0; // target turn rate
+  let rTurnTimer = 0; // frames until next turn decision
+
+  function moveRocket() {
+    // periodically decide a new turn target
+    rTurnTimer--;
+    if (rTurnTimer <= 0) {
+      rTurnTarget = (Math.random() - 0.5) * 3; // gentle curve direction
+      rTurnTimer = Math.floor(Math.random() * 120 + 60); // hold for 1-3 seconds
+    }
+
+    // smoothly ease turn rate toward target
+    rTurnRate += (rTurnTarget - rTurnRate) * 0.03;
+
+    // apply turn
+    rAngle += rTurnRate;
+
+    // move in direction of tip
+    const rad = (rAngle - 90) * Math.PI / 180;
+    rx += Math.cos(rad) * rSpeed;
+    ry += Math.sin(rad) * rSpeed;
+
+    // if rocket goes off screen, wrap to opposite side smoothly
+    if (rx < -40)  { rx = window.innerWidth  + 40; }
+    if (rx > window.innerWidth  + 40) { rx = -40; }
+    if (ry < -40)  { ry = window.innerHeight + 40; }
+    if (ry > window.innerHeight + 40) { ry = -40; }
+
+    rocket.style.left      = rx + 'px';
+    rocket.style.top       = ry + 'px';
+    rocket.style.transform = `translate(-50%, -50%) rotate(${rAngle}deg)`;
+
+    requestAnimationFrame(moveRocket);
+  }
+  moveRocket();
+</script>
+
+
+
+
+<script>
+/*
+ * PENDANT LIGHT — clean rewrite
+ *
+ * Key design decisions that eliminate all previous bugs:
+ *
+ * 1. PIVOT ABOVE H1: pivot x = h1 bounding box centre (not screen centre).
+ *    Measured after a short delay so h1 is rendered at its true position.
+ *
+ * 2. ONE COORDINATE SPACE: everything in viewport px.
+ *    bulbX = pivotX + sin(angle) * cordLen  (viewport px)
+ *    bulbY = pivotY + cos(angle) * cordLen  (viewport px)
+ *
+ * 3. CORD NEVER TOUCHES BULB: cord height = cordLen - BULB_H.
+ *    Bulb top = cordLen - BULB_H from arm origin. Same value → perfect join.
+ *
+ * 4. CLIP-PATH IN ELEMENT SPACE: h1Hot has inset:0 over heroH1.
+ *    clip-path origin = h1Rect.left, h1Rect.top (viewport px).
+ *    So: clipX = bulbX - h1Rect.left,  clipY = bulbY - h1Rect.top.
+ *    No negation, no percentage conversion needed.
+ *
+ * 5. H1 MEASURED BEFORE ANIMATION: h1 starts opacity:0, JS measures its
+ *    rect, then sets pivot, then fades h1 in. No stale geometry.
+ */
+
+const pPivot   = document.getElementById('pPivot');
+const pArm     = document.getElementById('pArm');
+const pCord    = document.getElementById('pCord');
+const pBulb    = document.getElementById('pBulb');
+const pCone    = document.getElementById('pCone');
+const pAmbient = document.getElementById('pAmbient');
+const heroH1   = document.getElementById('heroH1');
+const h1Hot    = document.getElementById('h1Hot');
+const h1Line2  = document.getElementById('h1Line2');
+// Individual spans inside h1Hot — clip-path applied to each separately
+// to avoid conflict with -webkit-background-clip:text on line2
+/* hotLine1/hotLine2 not needed — clip applied to h1Hot parent */
+
+const BULB_H = 24;   // px — bulb element height
+const GAP    = 20;   // px — gap between bulb bottom and h1 top
+
+// Physics config
+const CFG = {
+  initialAngleDeg : 24,
+  damping         : 0.988,
+  restThreshold   : 0.005,
+  gravity         : 9.8,
+};
+
+let pivotX = 0, pivotY = 0, cordLen = 0;
+let angle  = -CFG.initialAngleDeg * Math.PI / 180;
+let angVel = 0;
+let resting = false;
+let lastT   = null;
+let rafId   = null;
+
+/* ── SETUP ──────────────────────────────────────────────────────
+ * Called once after h1 is rendered (opacity:0 but laid out).
+ * Sets pivot above h1 centre, sizes cord. */
+function setup() {
+  const wrapRect = document.querySelector('.wrapper').getBoundingClientRect();
+  const h1Rect   = heroH1.getBoundingClientRect();
+
+  // Pivot x: centred over h1, relative to wrapper left edge
+  pivotX = h1Rect.left - wrapRect.left + h1Rect.width / 2;
+
+  // Cord length: from very top of wrapper down to GAP above h1
+  // This means the cord starts from the extreme top of the page
+  cordLen = (h1Rect.top - wrapRect.top) - GAP;
+  cordLen = Math.max(cordLen, 60);
+
+  pivotY = 0; // pivot at wrapper top (y=0)
+
+  // Position pivot at wrapper top
+  pPivot.style.left = pivotX + 'px';
+  pPivot.style.top  = '0px';
+
+  // Cord height stops at bulb top
+  pCord.style.height = (cordLen - BULB_H) + 'px';
+
+  // Bulb at arm tip
+  pBulb.style.top = (cordLen - BULB_H) + 'px';
+
+  // Cone: from wrapper top, centred on pivot x
+  pCone.style.top  = '0px';
+  pCone.style.left = pivotX + 'px';
+
+  // Ambient at h1 vertical centre in wrapper-local coords
+  pAmbient.style.left = pivotX + 'px';
+  pAmbient.style.top  = (h1Rect.top - wrapRect.top + h1Rect.height / 2) + 'px';
+}
+
+/* ── PHYSICS ─────────────────────────────────────────────────── */
+function tick(dt) {
+  if (resting) return;
+  const L     = cordLen / 280;
+  const alpha = -(CFG.gravity / L) * Math.sin(angle);
+  angVel += alpha * dt;
+  angVel *= CFG.damping;
+  angle  += angVel * dt;
+  if (Math.abs(angle) < CFG.restThreshold && Math.abs(angVel) < CFG.restThreshold) {
+    angle = 0; angVel = 0; resting = true;
+    onRest();
+  }
+}
+
+/* ── RENDER ──────────────────────────────────────────────────── */
+function render() {
+  const deg = angle * 180 / Math.PI;
+  pArm.style.transform = `rotate(${deg}deg)`;
+
+  // Bulb tip in wrapper-local px
+  const bulbX = pivotX + Math.sin(angle) * cordLen;
+  const bulbY = pivotY + Math.cos(angle) * cordLen;
+
+  // Cone tracks bulb x
+  pCone.style.left = bulbX + 'px';
+
+  // ── Clip-path ───────────────────────────────────────────────
+  // Convert wrapper-local bulb → viewport px
+  const wrapRect = document.querySelector('.wrapper').getBoundingClientRect();
+  const r        = heroH1.getBoundingClientRect();
+  const bulbVX   = wrapRect.left + bulbX;
+
+  // beamX: where the light beam lands on the h1 horizontally (h1-local px)
+  const beamX = bulbVX - r.left;
+  // Mirror so hotspot moves OPPOSITE to bulb direction
+  const clipX = r.width - beamX;
+  // clipY: light comes from above h1, so negative (above element top)
+  const clipY = -30;
+
+  // Tight radius — shrinks further from h1 centre
+  const distFromCentre = Math.abs(beamX - r.width / 2);
+  const baseR = r.height * 0.75 + 30;
+  const hotR  = Math.max(baseR - distFromCentre * 0.3, 80);
+
+  // Soft mask — radial gradient from light origin, fades to transparent
+  // Gradient covers the full h1 element (100% 100%), origin is where light hits
+  // Inner solid zone (0–30%) then soft feather out to transparent at 75%
+  const grad = `radial-gradient(${hotR * 1.4}px ${hotR * 1.4}px at ${clipX}px ${clipY}px, black 0%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.3) 60%, transparent 75%)`;
+  h1Hot.style.webkitMaskImage = grad;
+  h1Hot.style.maskImage       = grad;
+  h1Hot.style.webkitMaskSize  = '100% 100%';
+  h1Hot.style.maskSize        = '100% 100%';
+
+  if (distFromCentre < r.width * 0.5) {
+    h1Line2.classList.add('lit');
+  } else {
+    h1Line2.classList.remove('lit');
+  }
+}
+
+/* ── RAF LOOP ────────────────────────────────────────────────── */
+function loop(t) {
+  if (lastT === null) lastT = t;
+  const dt = Math.min((t - lastT) / 1000, 0.05);
+  lastT = t;
+  tick(dt);
+  render();
+  if (!resting) rafId = requestAnimationFrame(loop);
+}
+
+/* ── ON REST ─────────────────────────────────────────────────── */
+function onRest() {
+  render();
+  const r = heroH1.getBoundingClientRect();
+  // Small soft glow at top-centre — light resting just above heading
+  const restGrad = `radial-gradient(circle at ${r.width/2}px -20px, black 0%, black 30%, transparent 68%)`;
+  h1Hot.style.transition = '-webkit-mask-image 1.6s ease, mask-image 1.6s ease';
+  h1Hot.style.webkitMaskImage = restGrad;
+  h1Hot.style.maskImage       = restGrad;
+  h1Hot.style.webkitMaskSize  = '100% 100%';
+  h1Hot.style.maskSize        = '100% 100%';
+  h1Line2.classList.add('lit');
+  pAmbient.style.opacity = '1';
+  // Fade out the cone — it causes a visible edge artifact when stationary
+  pCone.style.transition = 'opacity 0.8s ease';
+  pCone.style.opacity = '0';
+}
+
+/* ── INIT ────────────────────────────────────────────────────── */
+function init() {
+  // h1 is opacity:0 but laid out — safe to measure now
+  setup();
+
+  // Animate pivot descending from above viewport
+  pPivot.style.transform = `translate(0px, -120px)`;
+  pPivot.style.transition = 'transform 900ms cubic-bezier(0.22, 1, 0.36, 1)';
+  // Force reflow so transition fires
+  pPivot.getBoundingClientRect();
+  pPivot.style.transform = 'translate(0px, 0px)';
+
+  // Fade in cone shortly after descent starts
+  setTimeout(() => { pCone.style.opacity = '1'; }, 680);
+
+  // Fade in h1, then start physics
+  setTimeout(() => {
+    heroH1.classList.add('h1-visible');
+    lastT = null;
+    rafId = requestAnimationFrame(loop);
+  }, 800);
+}
+
+/* ── RESIZE ──────────────────────────────────────────────────── */
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(rafId);
+  setup();
+  if (!resting) { lastT = null; rafId = requestAnimationFrame(loop); }
+  else render();
+});
+
+/* On scroll: recalculate pivot and re-render so bulb tracks correctly
+   even when the user fast-scrolls. rAF-throttled to stay at 60fps. */
+let scrollRaf = null;
+window.addEventListener('scroll', () => {
+  if (scrollRaf) return;
+  scrollRaf = requestAnimationFrame(() => {
+    scrollRaf = null;
+    setup();
+    render();
+  });
+}, { passive: true });
+
+/* ── START ───────────────────────────────────────────────────── */
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  setup();
+  heroH1.classList.add('h1-visible');
+  resting = true; angle = 0;
+  render();
+  pCone.style.opacity = '1';
+  pAmbient.style.opacity = '1';
+  const r = heroH1.getBoundingClientRect();
+  h1Hot.style.webkitMaskImage = `radial-gradient(circle at ${r.width/2}px -20px, black 0%, black 30%, transparent 68%)`;
+  h1Hot.style.maskImage       = `radial-gradient(circle at ${r.width/2}px -20px, black 0%, black 30%, transparent 68%)`;
+  h1Hot.style.webkitMaskSize  = '100% 100%';
+  h1Hot.style.maskSize        = '100% 100%';
+  h1Line2.classList.add('lit');
+} else {
+  // Small delay to ensure layout is complete and h1 is at its true position
+  requestAnimationFrame(() => requestAnimationFrame(init));
+}
+</script>
+</body>
+</html>
