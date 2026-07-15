@@ -783,7 +783,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
             Download
           </a>
-          <a class="ios-btn" href="https://joyful-duckanoo-65135b.netlify.app/" target="_blank" rel="noopener">
+          <a class="ios-btn" id="iosDownloadBtn" href="https://joyful-duckanoo-65135b.netlify.app/" target="_blank" rel="noopener">
             <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 37.6 59 129.3 107.2 127.8 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-84.1 102.6-121.8-65.2-30.7-61.7-90-61.7-91.9zM256.4 88.9c26.3-31.2 23.9-59.6 23.2-69.9-23.3 1.4-50.3 16-65.9 34.1-17.2 19.5-27.3 43.6-25.2 69.4 24.7 1.9 47.2-10.7 67.9-33.6z"/></svg>
             iOS
           </a>
@@ -974,16 +974,21 @@
 </script>
 
 <script>
-  // ── EXPENSE TRACKER: real download count pulled from GitHub Releases API ──
-  // GitHub tracks the actual number of times a release asset has been
-  // downloaded — no third-party service needed, and it only counts
-  // completed downloads (not just button clicks).
-  // EXPENSE_BASE = downloads that happened before this asset was
-  // re-uploaded / before tracking started (manual offset).
+  // ── EXPENSE TRACKER: combined download count ──
+  // Android: real download count pulled from GitHub Releases API
+  //   (counts completed downloads, not just clicks).
+  // iOS: click count on the "iOS" button, tracked via CountAPI
+  //   (a free, no-signup, no-key counter service) since the iOS PWA
+  //   is hosted separately on Netlify and GitHub has no visibility
+  //   into it.
+  // EXPENSE_BASE = downloads that happened before this tracking setup
+  // existed (manual offset).
   const EXPENSE_BASE = 250;
   const EXPENSE_CACHE_KEY = 'mf_expense_download_count';
+  const IOS_COUNTAPI_KEY = 'mindflux_pragy_expensetracker_ios_pwa_v1';
+  const IOS_COUNTAPI_BASE = 'https://countapi.mileshilliard.com/api/v1';
 
-  // Show the last known-good count immediately (if we have one cached),
+  // Show the last known-good combined count immediately (if cached),
   // so a failed/rate-limited API call doesn't make the number drop
   // back down to the static 250 baseline.
   (function showCachedCount() {
@@ -994,24 +999,35 @@
     }
   })();
 
-  fetch('https://api.github.com/repos/PB31-pragy/mindflux/releases/tags/v1.0?t=' + Date.now(), { cache: 'no-store' })
-    .then(r => r.json())
-    .then(data => {
-      const el = document.getElementById('count-expense');
-      if (!el || !data.assets) return;
-      const asset = data.assets.find(a => a.name === 'expensetracker.apk');
-      if (asset && typeof asset.download_count === 'number') {
-        const total = asset.download_count + EXPENSE_BASE;
-        el.textContent = '⬇ ' + total + ' downloads';
-        localStorage.setItem(EXPENSE_CACHE_KEY, total);
-      }
-    })
-    .catch(() => {
-      // Fetch failed (rate limit / offline / blocked) — the cached
-      // value shown by showCachedCount() above stays as-is, or the
-      // static "⬇ 250 downloads" baked into the HTML if this is the
-      // visitor's very first visit with nothing cached yet.
+  // Fire-and-forget: register a click on the iOS button as a download.
+  const iosBtn = document.getElementById('iosDownloadBtn');
+  if (iosBtn) {
+    iosBtn.addEventListener('click', () => {
+      fetch(`${IOS_COUNTAPI_BASE}/hit/${IOS_COUNTAPI_KEY}`, { cache: 'no-store' }).catch(() => {});
     });
+  }
+
+  // On load: fetch the real Android count + current iOS click count,
+  // add the manual offset, and show the combined total.
+  Promise.all([
+    fetch('https://api.github.com/repos/PB31-pragy/mindflux/releases/tags/v1.0?t=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.json())
+      .then(data => {
+        const asset = data.assets && data.assets.find(a => a.name === 'expensetracker.apk');
+        return (asset && typeof asset.download_count === 'number') ? asset.download_count : null;
+      })
+      .catch(() => null),
+    fetch(`${IOS_COUNTAPI_BASE}/get/${IOS_COUNTAPI_KEY}?t=` + Date.now(), { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : { value: 0 }))
+      .then(data => Number(data.value) || 0)
+      .catch(() => 0), // key may not exist yet on first-ever iOS click — treat as 0
+  ]).then(([androidCount, iosCount]) => {
+    const el = document.getElementById('count-expense');
+    if (!el || androidCount === null) return; // Android fetch failed — keep cached/static fallback
+    const total = androidCount + iosCount + EXPENSE_BASE;
+    el.textContent = '⬇ ' + total + ' downloads';
+    localStorage.setItem(EXPENSE_CACHE_KEY, total);
+  });
 </script>
 <script>
   const glow = document.getElementById('cursorGlow');
