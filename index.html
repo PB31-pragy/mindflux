@@ -6,7 +6,7 @@
   <title>Mind Flux — by Pragy B</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,9 +21,9 @@
       --text:         #ffffff;
       --muted:        rgba(255,255,255,0.5);
       --muted2:       rgba(255,255,255,0.25);
-      --glass:        rgba(120,50,200,0.12);
-      --glass-border: rgba(168,85,247,0.25);
-      --glass-hover:  rgba(120,50,200,0.22);
+      --glass:        rgba(134,58,222,0.13);
+      --glass-border: rgba(178,92,255,0.28);
+      --glass-hover:  rgba(150,78,235,0.24);
     }
 
     html { scroll-behavior: smooth; }
@@ -38,52 +38,17 @@
     }
 
     /* ── GALAXY BACKGROUND ── */
-    .bg {
-      position: fixed; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse at 20% 10%,  #2d0060 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%,  #1a0040 0%, transparent 45%),
-        radial-gradient(ellipse at 50% 60%,  #3b0070 0%, transparent 55%),
-        radial-gradient(ellipse at 10% 80%,  #1e0045 0%, transparent 40%),
-        radial-gradient(ellipse at 90% 90%,  #2a005a 0%, transparent 45%),
-        #0d0015;
+    .galaxy-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
     }
-
-    /* star particles */
-    .stars {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        radial-gradient(1px 1px at 15% 20%,  rgba(255,255,255,0.8) 0%, transparent 100%),
-        radial-gradient(1px 1px at 35% 8%,   rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 55% 30%,  rgba(255,255,255,0.9) 0%, transparent 100%),
-        radial-gradient(1px 1px at 72% 15%,  rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 88% 40%,  rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 5%  55%,  rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 25% 70%,  rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 48% 85%,  rgba(255,255,255,0.8) 0%, transparent 100%),
-        radial-gradient(1px 1px at 65% 65%,  rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 82% 78%,  rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 40% 45%, rgba(255,255,255,0.9) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 60% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 92% 25%,  rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 18% 90%,  rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 77% 52%,  rgba(255,255,255,0.4) 0%, transparent 100%);
-    }
-
-    /* floating orbs */
-    .orb {
-      position: fixed; border-radius: 50%;
-      filter: blur(90px); pointer-events: none; z-index: 0;
-      animation: orbFloat ease-in-out infinite alternate;
-    }
-    .orb1 { width:500px;height:500px; background:radial-gradient(circle,rgba(124,58,237,0.5),transparent 70%); top:-100px;left:-100px; animation-duration:8s; }
-    .orb2 { width:400px;height:400px; background:radial-gradient(circle,rgba(168,85,247,0.4),transparent 70%); top:20%;right:-80px; animation-duration:10s; animation-delay:2s; }
-    .orb3 { width:350px;height:350px; background:radial-gradient(circle,rgba(236,72,153,0.3),transparent 70%); bottom:10%;left:15%; animation-duration:9s; animation-delay:1s; }
-    .orb4 { width:280px;height:280px; background:radial-gradient(circle,rgba(192,132,252,0.35),transparent 70%); bottom:25%;right:5%; animation-duration:11s; animation-delay:3s; }
-
-    @keyframes orbFloat {
-      from { transform: translate(0,0) scale(1); }
-      to   { transform: translate(30px,40px) scale(1.08); }
+    .galaxy-container canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     @keyframes fadeUp {
@@ -280,6 +245,7 @@
       opacity: 0;
       animation: fadeUp 0.6s ease forwards;
       transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
     }
 
     /* animated gradient border via pseudo element */
@@ -300,7 +266,7 @@
       position: absolute;
       inset: 1.5px;
       border-radius: 23px;
-      background: rgba(40, 5, 80, 0.85);
+      background: linear-gradient(155deg, rgba(52,14,100,0.93) 0%, rgba(24,6,52,0.95) 60%, rgba(16,3,38,0.96) 100%);
       z-index: -1;
     }
 
@@ -310,9 +276,9 @@
 
     .card:hover {
       background: var(--glass-hover);
-      border-color: rgba(168,85,247,0.5);
+      border-color: rgba(178,92,255,0.5);
       transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(124,58,237,0.3), 0 0 0 1px rgba(168,85,247,0.2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.09), 0 20px 60px rgba(134,58,222,0.32), 0 0 0 1px rgba(178,92,255,0.2);
     }
 
     /* TOP ROW */
@@ -497,15 +463,6 @@
       will-change: left, top;
     }
 
-    /* ── SHAPE GRID BACKGROUND ── */
-    .shapegrid-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-
     /* ── FOOTER ── */
     footer {
       margin-top: 72px;
@@ -527,42 +484,28 @@
     .footer-logo .dot { color: var(--neon); }
     .footer-note { font-size: 13px; color: var(--muted2); }
 
-    /* ── ASCII TEXT EFFECT (above hero heading) ── */
-    #asciiTextContainer {
-      position: relative;
+    /* ── CURVED LOOP TEXT (above hero heading) ── */
+    .curved-loop-jacket {
       width: 100%;
-      height: 110px;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      touch-action: none;
     }
-    .ascii-text-container canvas {
-      position: absolute;
-      left: 0;
-      top: 0;
+    .curved-loop-svg {
       width: 100%;
-      height: 100%;
-      image-rendering: optimizeSpeed;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-crisp-edges;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: optimize-contrast;
-      image-rendering: crisp-edges;
-      image-rendering: pixelated;
-    }
-    .ascii-text-container pre {
-      margin: 0;
+      height: auto;
+      display: block;
+      overflow: visible;
+      -webkit-user-select: none;
       user-select: none;
-      padding: 0;
-      line-height: 1em;
-      text-align: left;
-      position: absolute;
-      left: 0;
-      top: 0;
-      background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
-      background-attachment: fixed;
-      -webkit-text-fill-color: transparent;
-      -webkit-background-clip: text;
-      z-index: 9;
-      mix-blend-mode: difference;
+    }
+    .curved-loop-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 54px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      fill: url(#clGradient);
     }
 
     /* ── MOBILE ── */
@@ -578,20 +521,13 @@
       .ios-btn { width: 100%; }
       .coming-soon-btn { width: 100%; justify-content: center; margin-top: 4px; }
       footer { flex-direction: column; align-items: flex-start; }
-      #asciiTextContainer { height: 75px; }
     }
   </style>
 </head>
 <body>
 
 <div class="cursor-glow" id="cursorGlow"></div>
-<div class="bg"></div>
-<canvas id="shapeGridCanvas" class="shapegrid-canvas"></canvas>
-<div class="stars"></div>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
-<div class="orb orb4"></div>
+<div id="galaxyContainer" class="galaxy-container"></div>
 
 <div class="wrapper">
 
@@ -604,7 +540,22 @@
   <!-- HERO -->
   <section class="hero">
 
-    <div id="asciiTextContainer" class="ascii-text-container"></div>
+    <div id="curvedLoopContainer" class="curved-loop-jacket">
+      <svg class="curved-loop-svg" viewBox="0 0 1440 120">
+        <text id="clMeasure" font-weight="bold" xml:space="preserve" class="curved-loop-text" style="visibility:hidden;opacity:0;pointer-events:none;"></text>
+        <defs>
+          <path id="clPath" d="M-100,90 Q500,108 1540,90" fill="none" stroke="transparent"></path>
+          <linearGradient id="clGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#c084fc"/>
+            <stop offset="50%" stop-color="#e879f9"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+        </defs>
+        <text id="clTextEl" font-weight="bold" xml:space="preserve" class="curved-loop-text" visibility="hidden">
+          <textPath id="clTextPath" href="#clPath" startOffset="0px" xml:space="preserve"></textPath>
+        </text>
+      </svg>
+    </div>
 
     <h1 id="heroH1">
       <span class="line1">Apps that</span>
@@ -901,15 +852,7 @@
   });
 </script>
 
-<canvas id="space-canvas"></canvas>
-
 <style>
-  #space-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
   .rocket {
     position: fixed;
     font-size: 22px;
@@ -923,383 +866,8 @@
 <!-- Rocket -->
 <div class="rocket" id="rocket">🚀</div>
 
-<script>
-  // ── SHAPE GRID BACKGROUND ──
-  // Ported from a React canvas component (ShapeGrid). Wrapped in an IIFE
-  // to keep its variables out of the global scope.
-  (function () {
-    const canvas = document.getElementById('shapeGridCanvas');
-    const ctx = canvas.getContext('2d');
-
-    // Theme settings — subtle purple lines drifting diagonally, with a
-    // soft hover glow + short trail, tuned to sit quietly behind the
-    // existing orbs/stars rather than compete with them.
-    const direction = 'diagonal';
-    const speed = 0.4;
-    const borderColor = 'rgba(168,85,247,0.12)';
-    const squareSize = 44;
-    const hoverFillColor = 'rgba(168,85,247,0.25)';
-    const shape = 'square';
-    const hoverTrailAmount = 4;
-
-    const gridOffset = { x: 0, y: 0 };
-    let hoveredSquare = null;
-    let trailCells = [];
-    const cellOpacities = new Map();
-
-    const isHex = shape === 'hexagon';
-    const isTri = shape === 'triangle';
-    const hexHoriz = squareSize * 1.5;
-    const hexVert = squareSize * Math.sqrt(3);
-
-    function resizeCanvas() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function drawHex(cx, cy, size) {
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i;
-        const vx = cx + size * Math.cos(angle);
-        const vy = cy + size * Math.sin(angle);
-        if (i === 0) ctx.moveTo(vx, vy);
-        else ctx.lineTo(vx, vy);
-      }
-      ctx.closePath();
-    }
-
-    function drawCircle(cx, cy, size) {
-      ctx.beginPath();
-      ctx.arc(cx, cy, size / 2, 0, Math.PI * 2);
-      ctx.closePath();
-    }
-
-    function drawTriangle(cx, cy, size, flip) {
-      ctx.beginPath();
-      if (flip) {
-        ctx.moveTo(cx, cy + size / 2);
-        ctx.lineTo(cx + size / 2, cy - size / 2);
-        ctx.lineTo(cx - size / 2, cy - size / 2);
-      } else {
-        ctx.moveTo(cx, cy - size / 2);
-        ctx.lineTo(cx + size / 2, cy + size / 2);
-        ctx.lineTo(cx - size / 2, cy + size / 2);
-      }
-      ctx.closePath();
-    }
-
-    function drawGrid() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (isHex) {
-        const colShift = Math.floor(gridOffset.x / hexHoriz);
-        const offsetX = ((gridOffset.x % hexHoriz) + hexHoriz) % hexHoriz;
-        const offsetY = ((gridOffset.y % hexVert) + hexVert) % hexVert;
-
-        const cols = Math.ceil(canvas.width / hexHoriz) + 3;
-        const rows = Math.ceil(canvas.height / hexVert) + 3;
-
-        for (let col = -2; col < cols; col++) {
-          for (let row = -2; row < rows; row++) {
-            const cx = col * hexHoriz + offsetX;
-            const cy = row * hexVert + ((col + colShift) % 2 !== 0 ? hexVert / 2 : 0) + offsetY;
-
-            const cellKey = `${col},${row}`;
-            const alpha = cellOpacities.get(cellKey);
-            if (alpha) {
-              ctx.globalAlpha = alpha;
-              drawHex(cx, cy, squareSize);
-              ctx.fillStyle = hoverFillColor;
-              ctx.fill();
-              ctx.globalAlpha = 1;
-            }
-
-            drawHex(cx, cy, squareSize);
-            ctx.strokeStyle = borderColor;
-            ctx.stroke();
-          }
-        }
-      } else if (isTri) {
-        const halfW = squareSize / 2;
-        const colShift = Math.floor(gridOffset.x / halfW);
-        const rowShift = Math.floor(gridOffset.y / squareSize);
-        const offsetX = ((gridOffset.x % halfW) + halfW) % halfW;
-        const offsetY = ((gridOffset.y % squareSize) + squareSize) % squareSize;
-
-        const cols = Math.ceil(canvas.width / halfW) + 4;
-        const rows = Math.ceil(canvas.height / squareSize) + 4;
-
-        for (let col = -2; col < cols; col++) {
-          for (let row = -2; row < rows; row++) {
-            const cx = col * halfW + offsetX;
-            const cy = row * squareSize + squareSize / 2 + offsetY;
-            const flip = ((col + colShift + row + rowShift) % 2 + 2) % 2 !== 0;
-
-            const cellKey = `${col},${row}`;
-            const alpha = cellOpacities.get(cellKey);
-            if (alpha) {
-              ctx.globalAlpha = alpha;
-              drawTriangle(cx, cy, squareSize, flip);
-              ctx.fillStyle = hoverFillColor;
-              ctx.fill();
-              ctx.globalAlpha = 1;
-            }
-
-            drawTriangle(cx, cy, squareSize, flip);
-            ctx.strokeStyle = borderColor;
-            ctx.stroke();
-          }
-        }
-      } else if (shape === 'circle') {
-        const offsetX = ((gridOffset.x % squareSize) + squareSize) % squareSize;
-        const offsetY = ((gridOffset.y % squareSize) + squareSize) % squareSize;
-
-        const cols = Math.ceil(canvas.width / squareSize) + 3;
-        const rows = Math.ceil(canvas.height / squareSize) + 3;
-
-        for (let col = -2; col < cols; col++) {
-          for (let row = -2; row < rows; row++) {
-            const cx = col * squareSize + squareSize / 2 + offsetX;
-            const cy = row * squareSize + squareSize / 2 + offsetY;
-
-            const cellKey = `${col},${row}`;
-            const alpha = cellOpacities.get(cellKey);
-            if (alpha) {
-              ctx.globalAlpha = alpha;
-              drawCircle(cx, cy, squareSize);
-              ctx.fillStyle = hoverFillColor;
-              ctx.fill();
-              ctx.globalAlpha = 1;
-            }
-
-            drawCircle(cx, cy, squareSize);
-            ctx.strokeStyle = borderColor;
-            ctx.stroke();
-          }
-        }
-      } else {
-        const offsetX = ((gridOffset.x % squareSize) + squareSize) % squareSize;
-        const offsetY = ((gridOffset.y % squareSize) + squareSize) % squareSize;
-
-        const cols = Math.ceil(canvas.width / squareSize) + 3;
-        const rows = Math.ceil(canvas.height / squareSize) + 3;
-
-        for (let col = -2; col < cols; col++) {
-          for (let row = -2; row < rows; row++) {
-            const sx = col * squareSize + offsetX;
-            const sy = row * squareSize + offsetY;
-
-            const cellKey = `${col},${row}`;
-            const alpha = cellOpacities.get(cellKey);
-            if (alpha) {
-              ctx.globalAlpha = alpha;
-              ctx.fillStyle = hoverFillColor;
-              ctx.fillRect(sx, sy, squareSize, squareSize);
-              ctx.globalAlpha = 1;
-            }
-
-            ctx.strokeStyle = borderColor;
-            ctx.strokeRect(sx, sy, squareSize, squareSize);
-          }
-        }
-      }
-
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
-      );
-      gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
-
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function updateCellOpacities() {
-      const targets = new Map();
-
-      if (hoveredSquare) {
-        targets.set(`${hoveredSquare.x},${hoveredSquare.y}`, 1);
-      }
-
-      if (hoverTrailAmount > 0) {
-        for (let i = 0; i < trailCells.length; i++) {
-          const t = trailCells[i];
-          const key = `${t.x},${t.y}`;
-          if (!targets.has(key)) {
-            targets.set(key, (trailCells.length - i) / (trailCells.length + 1));
-          }
-        }
-      }
-
-      for (const [key] of targets) {
-        if (!cellOpacities.has(key)) {
-          cellOpacities.set(key, 0);
-        }
-      }
-
-      for (const [key, opacity] of cellOpacities) {
-        const target = targets.get(key) || 0;
-        const next = opacity + (target - opacity) * 0.15;
-        if (next < 0.005) {
-          cellOpacities.delete(key);
-        } else {
-          cellOpacities.set(key, next);
-        }
-      }
-    }
-
-    function updateAnimation() {
-      const effectiveSpeed = Math.max(speed, 0.1);
-      const wrapX = isHex ? hexHoriz * 2 : squareSize;
-      const wrapY = isHex ? hexVert : isTri ? squareSize * 2 : squareSize;
-
-      switch (direction) {
-        case 'right':
-          gridOffset.x = (gridOffset.x - effectiveSpeed + wrapX) % wrapX;
-          break;
-        case 'left':
-          gridOffset.x = (gridOffset.x + effectiveSpeed + wrapX) % wrapX;
-          break;
-        case 'up':
-          gridOffset.y = (gridOffset.y + effectiveSpeed + wrapY) % wrapY;
-          break;
-        case 'down':
-          gridOffset.y = (gridOffset.y - effectiveSpeed + wrapY) % wrapY;
-          break;
-        case 'diagonal':
-          gridOffset.x = (gridOffset.x - effectiveSpeed + wrapX) % wrapX;
-          gridOffset.y = (gridOffset.y - effectiveSpeed + wrapY) % wrapY;
-          break;
-        default:
-          break;
-      }
-
-      updateCellOpacities();
-      drawGrid();
-      requestAnimationFrame(updateAnimation);
-    }
-
-    function handleMouseMove(event) {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const mouseY = event.clientY - rect.top;
-
-      let col, row;
-
-      if (isHex) {
-        const colShift = Math.floor(gridOffset.x / hexHoriz);
-        const offsetX = ((gridOffset.x % hexHoriz) + hexHoriz) % hexHoriz;
-        const offsetY = ((gridOffset.y % hexVert) + hexVert) % hexVert;
-        const adjustedX = mouseX - offsetX;
-        const adjustedY = mouseY - offsetY;
-
-        col = Math.round(adjustedX / hexHoriz);
-        const rowOffset = (col + colShift) % 2 !== 0 ? hexVert / 2 : 0;
-        row = Math.round((adjustedY - rowOffset) / hexVert);
-      } else if (isTri) {
-        const halfW = squareSize / 2;
-        const offsetX = ((gridOffset.x % halfW) + halfW) % halfW;
-        const offsetY = ((gridOffset.y % squareSize) + squareSize) % squareSize;
-
-        const adjustedX = mouseX - offsetX;
-        const adjustedY = mouseY - offsetY;
-
-        col = Math.round(adjustedX / halfW);
-        row = Math.floor(adjustedY / squareSize);
-      } else if (shape === 'circle') {
-        const offsetX = ((gridOffset.x % squareSize) + squareSize) % squareSize;
-        const offsetY = ((gridOffset.y % squareSize) + squareSize) % squareSize;
-
-        const adjustedX = mouseX - offsetX;
-        const adjustedY = mouseY - offsetY;
-
-        col = Math.round(adjustedX / squareSize);
-        row = Math.round(adjustedY / squareSize);
-      } else {
-        const offsetX = ((gridOffset.x % squareSize) + squareSize) % squareSize;
-        const offsetY = ((gridOffset.y % squareSize) + squareSize) % squareSize;
-
-        const adjustedX = mouseX - offsetX;
-        const adjustedY = mouseY - offsetY;
-
-        col = Math.floor(adjustedX / squareSize);
-        row = Math.floor(adjustedY / squareSize);
-      }
-
-      if (!hoveredSquare || hoveredSquare.x !== col || hoveredSquare.y !== row) {
-        if (hoveredSquare && hoverTrailAmount > 0) {
-          trailCells.unshift({ ...hoveredSquare });
-          if (trailCells.length > hoverTrailAmount) trailCells.length = hoverTrailAmount;
-        }
-        hoveredSquare = { x: col, y: row };
-      }
-    }
-
-    function handleMouseLeave() {
-      if (hoveredSquare && hoverTrailAmount > 0) {
-        trailCells.unshift({ ...hoveredSquare });
-        if (trailCells.length > hoverTrailAmount) trailCells.length = hoverTrailAmount;
-      }
-      hoveredSquare = null;
-    }
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-
-    requestAnimationFrame(updateAnimation);
-  })();
-</script>
 
 <script>
-  // ── MOVING STARS ──
-  const canvas = document.getElementById('space-canvas');
-  const ctx    = canvas.getContext('2d');
-
-  let W = canvas.width  = window.innerWidth;
-  let H = canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  });
-
-  const stars = Array.from({ length: 120 }, () => ({
-    x:     Math.random() * window.innerWidth,
-    y:     Math.random() * window.innerHeight,
-    r:     Math.random() * 1.5 + 0.3,
-    speed: Math.random() * 0.4 + 0.1,
-    alpha: Math.random() * 0.7 + 0.3,
-    twinkleSpeed: Math.random() * 0.02 + 0.005,
-    twinkleDir: Math.random() > 0.5 ? 1 : -1,
-  }));
-
-  function drawStars() {
-    ctx.clearRect(0, 0, W, H);
-    stars.forEach(s => {
-      // twinkle
-      s.alpha += s.twinkleSpeed * s.twinkleDir;
-      if (s.alpha >= 1)   { s.alpha = 1;   s.twinkleDir = -1; }
-      if (s.alpha <= 0.1) { s.alpha = 0.1; s.twinkleDir =  1; }
-
-      // move downward slowly
-      s.y += s.speed;
-      if (s.y > H + 2) { s.y = -2; s.x = Math.random() * W; }
-
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
-      ctx.fill();
-    });
-    requestAnimationFrame(drawStars);
-  }
-  drawStars();
-
   // ── SMOOTH ROCKET FLIGHT ──
   const rocket = document.getElementById('rocket');
   let rx = Math.random() * window.innerWidth;
@@ -1351,455 +919,418 @@
   // Show the hero heading (previously handled by the pendant light script)
   document.getElementById('heroH1').classList.add('h1-visible');
 </script>
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+<script>
+  // ── CURVED LOOP TEXT ──
+  // Ported from a React SVG marquee component (CurvedLoop). Text follows
+  // a curved path and loops infinitely; draggable to spin it manually.
+  (function () {
+    const marqueeTextRaw = 'MIND FLUX \u2726 IDEAS COME INTO ACTION \u2726 ';
+    const speed = 2;
+    const curveAmount = 18;
+    const baselineY = 90;
+    const interactive = true;
+    let dir = 'left';
 
-/* ── Shaders ── */
+    const hasTrailing = /\s|\u00A0$/.test(marqueeTextRaw);
+    const text = (hasTrailing ? marqueeTextRaw.replace(/\s+$/, '') : marqueeTextRaw) + '\u00A0';
+
+    const jacket = document.getElementById('curvedLoopContainer');
+    const measureEl = document.getElementById('clMeasure');
+    const textEl = document.getElementById('clTextEl');
+    const textPathEl = document.getElementById('clTextPath');
+    const pathEl = document.getElementById('clPath');
+
+    pathEl.setAttribute('d', `M-100,${baselineY} Q500,${baselineY + curveAmount} 1540,${baselineY}`);
+    measureEl.textContent = text;
+
+    let spacing = 0;
+    let offset = 0;
+    let dragging = false;
+    let lastX = 0;
+    let vel = 0;
+    let started = false;
+
+    function buildTotalText() {
+      if (!spacing) return text;
+      const repeats = Math.ceil(3600 / spacing) + 4;
+      return new Array(repeats).fill(text).join('');
+    }
+
+    function init() {
+      spacing = measureEl.getComputedTextLength();
+      if (!spacing) {
+        // Font not ready / laid out yet — try again next frame.
+        requestAnimationFrame(init);
+        return;
+      }
+      textPathEl.textContent = buildTotalText();
+      offset = 0;
+      textPathEl.setAttribute('startOffset', offset + 'px');
+      textEl.setAttribute('visibility', 'visible');
+      jacket.style.visibility = 'visible';
+      if (!started) {
+        started = true;
+        requestAnimationFrame(animate);
+      }
+    }
+
+    function animate() {
+      if (!dragging) {
+        const delta = dir === 'right' ? speed : -speed;
+        let newOffset = offset + delta;
+        const wrapPoint = spacing;
+        if (newOffset <= -wrapPoint) newOffset += wrapPoint;
+        if (newOffset > 0) newOffset -= wrapPoint;
+        offset = newOffset;
+        textPathEl.setAttribute('startOffset', offset + 'px');
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function onPointerDown(e) {
+      if (!interactive) return;
+      dragging = true;
+      lastX = e.clientX;
+      vel = 0;
+      jacket.style.cursor = 'grabbing';
+      jacket.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerMove(e) {
+      if (!interactive || !dragging) return;
+      const dx = e.clientX - lastX;
+      lastX = e.clientX;
+      vel = dx;
+      let newOffset = offset + dx;
+      const wrapPoint = spacing;
+      if (newOffset <= -wrapPoint) newOffset += wrapPoint;
+      if (newOffset > 0) newOffset -= wrapPoint;
+      offset = newOffset;
+      textPathEl.setAttribute('startOffset', offset + 'px');
+    }
+
+    function endDrag() {
+      if (!interactive) return;
+      dragging = false;
+      dir = vel > 0 ? 'right' : 'left';
+      jacket.style.cursor = 'grab';
+    }
+
+    jacket.addEventListener('pointerdown', onPointerDown);
+    jacket.addEventListener('pointermove', onPointerMove);
+    jacket.addEventListener('pointerup', endDrag);
+    jacket.addEventListener('pointerleave', endDrag);
+
+    jacket.style.cursor = interactive ? 'grab' : 'auto';
+    jacket.style.visibility = 'hidden';
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<script type="module">
+import { Renderer, Program, Mesh, Color, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/src/index.js";
+
+/* ── Galaxy background ── */
+/* Ported from a React WebGL component (Galaxy, built on the 'ogl' library). */
+
 const vertexShader = `
+attribute vec2 uv;
+attribute vec2 position;
+
 varying vec2 vUv;
-uniform float uTime;
-uniform float mouse;
-uniform float uEnableWaves;
 
 void main() {
-    vUv = uv;
-    float time = uTime * 5.;
-
-    float waveFactor = uEnableWaves;
-
-    vec3 transformed = position;
-
-    transformed.x += sin(time + position.y) * 0.5 * waveFactor;
-    transformed.y += cos(time + position.z) * 0.15 * waveFactor;
-    transformed.z += sin(time + position.x) * waveFactor;
-
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+  vUv = uv;
+  gl_Position = vec4(position, 0, 1);
 }
 `;
 
 const fragmentShader = `
-varying vec2 vUv;
-uniform float mouse;
+precision highp float;
+
 uniform float uTime;
-uniform sampler2D uTexture;
+uniform vec3 uResolution;
+uniform vec2 uFocal;
+uniform vec2 uRotation;
+uniform float uStarSpeed;
+uniform float uDensity;
+uniform float uHueShift;
+uniform float uSpeed;
+uniform vec2 uMouse;
+uniform float uGlowIntensity;
+uniform float uSaturation;
+uniform bool uMouseRepulsion;
+uniform float uTwinkleIntensity;
+uniform float uRotationSpeed;
+uniform float uRepulsionStrength;
+uniform float uMouseActiveFactor;
+uniform float uAutoCenterRepulsion;
+uniform bool uTransparent;
+
+varying vec2 vUv;
+
+#define NUM_LAYER 4.0
+#define STAR_COLOR_CUTOFF 0.2
+#define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
+#define PERIOD 3.0
+
+float Hash21(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+
+float tri(float x) {
+  return abs(fract(x) * 2.0 - 1.0);
+}
+
+float tris(float x) {
+  float t = fract(x);
+  return 1.0 - smoothstep(0.0, 1.0, abs(2.0 * t - 1.0));
+}
+
+float trisn(float x) {
+  float t = fract(x);
+  return 2.0 * (1.0 - smoothstep(0.0, 1.0, abs(2.0 * t - 1.0))) - 1.0;
+}
+
+vec3 hsv2rgb(vec3 c) {
+  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+float Star(vec2 uv, float flare) {
+  float d = length(uv);
+  float m = (0.05 * uGlowIntensity) / d;
+  float rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
+  m += rays * flare * uGlowIntensity;
+  uv *= MAT45;
+  rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
+  m += rays * 0.3 * flare * uGlowIntensity;
+  m *= smoothstep(1.0, 0.2, d);
+  return m;
+}
+
+vec3 StarLayer(vec2 uv) {
+  vec3 col = vec3(0.0);
+
+  vec2 gv = fract(uv) - 0.5; 
+  vec2 id = floor(uv);
+
+  for (int y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+      vec2 offset = vec2(float(x), float(y));
+      vec2 si = id + vec2(float(x), float(y));
+      float seed = Hash21(si);
+      float size = fract(seed * 345.32);
+      float glossLocal = tri(uStarSpeed / (PERIOD * seed + 1.0));
+      float flareSize = smoothstep(0.9, 1.0, size) * glossLocal;
+
+      float red = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 1.0)) + STAR_COLOR_CUTOFF;
+      float blu = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 3.0)) + STAR_COLOR_CUTOFF;
+      float grn = min(red, blu) * seed;
+      vec3 base = vec3(red, grn, blu);
+      
+      float hue = atan(base.g - base.r, base.b - base.r) / (2.0 * 3.14159) + 0.5;
+      hue = fract(hue + uHueShift / 360.0);
+      float sat = length(base - vec3(dot(base, vec3(0.299, 0.587, 0.114)))) * uSaturation;
+      float val = max(max(base.r, base.g), base.b);
+      base = hsv2rgb(vec3(hue, sat, val));
+
+      vec2 pad = vec2(tris(seed * 34.0 + uTime * uSpeed / 10.0), tris(seed * 38.0 + uTime * uSpeed / 30.0)) - 0.5;
+
+      float star = Star(gv - offset - pad, flareSize);
+      vec3 color = base;
+
+      float twinkle = trisn(uTime * uSpeed + seed * 6.2831) * 0.5 + 1.0;
+      twinkle = mix(1.0, twinkle, uTwinkleIntensity);
+      star *= twinkle;
+      
+      col += star * size * color;
+    }
+  }
+
+  return col;
+}
 
 void main() {
-    float time = uTime;
-    vec2 pos = vUv;
+  vec2 focalPx = uFocal * uResolution.xy;
+  vec2 uv = (vUv * uResolution.xy - focalPx) / uResolution.y;
 
-    float move = sin(time + mouse) * 0.01;
-    float r = texture2D(uTexture, pos + cos(time * 2. - time + pos.x) * .01).r;
-    float g = texture2D(uTexture, pos + tan(time * .5 + pos.x - time) * .01).g;
-    float b = texture2D(uTexture, pos - cos(time * 2. + time + pos.y) * .01).b;
-    float a = texture2D(uTexture, pos).a;
-    gl_FragColor = vec4(r, g, b, a);
+  vec2 mouseNorm = uMouse - vec2(0.5);
+  
+  if (uAutoCenterRepulsion > 0.0) {
+    vec2 centerUV = vec2(0.0, 0.0);
+    float centerDist = length(uv - centerUV);
+    vec2 repulsion = normalize(uv - centerUV) * (uAutoCenterRepulsion / (centerDist + 0.1));
+    uv += repulsion * 0.05;
+  } else if (uMouseRepulsion) {
+    vec2 mousePosUV = (uMouse * uResolution.xy - focalPx) / uResolution.y;
+    float mouseDist = length(uv - mousePosUV);
+    vec2 repulsion = normalize(uv - mousePosUV) * (uRepulsionStrength / (mouseDist + 0.1));
+    uv += repulsion * 0.05 * uMouseActiveFactor;
+  } else {
+    vec2 mouseOffset = mouseNorm * 0.1 * uMouseActiveFactor;
+    uv += mouseOffset;
+  }
+
+  float autoRotAngle = uTime * uRotationSpeed;
+  mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
+  uv = autoRot * uv;
+
+  uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
+
+  vec3 col = vec3(0.0);
+
+  for (float i = 0.0; i < 1.0; i += 1.0 / NUM_LAYER) {
+    float depth = fract(i + uStarSpeed * uSpeed);
+    float scale = mix(20.0 * uDensity, 0.5 * uDensity, depth);
+    float fade = depth * smoothstep(1.0, 0.9, depth);
+    col += StarLayer(uv * scale + i * 453.32) * fade;
+  }
+
+  if (uTransparent) {
+    float alpha = length(col);
+    alpha = smoothstep(0.0, 0.3, alpha);
+    alpha = min(alpha, 1.0);
+    gl_FragColor = vec4(col, alpha);
+  } else {
+    gl_FragColor = vec4(col, 1.0);
+  }
 }
 `;
 
-Math.map = function (n, start, stop, start2, stop2) {
-  return ((n - start) / (stop - start)) * (stop2 - start2) + start2;
+/* ── Settings (edit these to retune the effect) ──
+   hueShift tuned toward purple/magenta to match the site's theme. */
+const options = {
+  focal: [0.5, 0.5],
+  rotation: [1.0, 0.0],
+  starSpeed: 0.4,
+  density: 1,
+  hueShift: 270,
+  disableAnimation: false,
+  speed: 0.8,
+  mouseInteraction: true,
+  glowIntensity: 0.35,
+  saturation: 0.6,
+  mouseRepulsion: true,
+  repulsionStrength: 2,
+  twinkleIntensity: 0.3,
+  rotationSpeed: 0.03,
+  autoCenterRepulsion: 0,
+  transparent: true
 };
 
-const PX_RATIO = window.devicePixelRatio || 1;
-
-class AsciiFilter {
-  constructor(renderer, { fontSize, fontFamily, charset, invert } = {}) {
-    this.renderer = renderer;
-    this.domElement = document.createElement('div');
-    this.domElement.style.position = 'absolute';
-    this.domElement.style.top = '0';
-    this.domElement.style.left = '0';
-    this.domElement.style.width = '100%';
-    this.domElement.style.height = '100%';
-
-    this.pre = document.createElement('pre');
-    this.domElement.appendChild(this.pre);
-
-    this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d');
-    this.domElement.appendChild(this.canvas);
-
-    this.deg = 0;
-    this.invert = invert ?? true;
-    this.fontSize = fontSize ?? 12;
-    this.fontFamily = fontFamily ?? "'Courier New', monospace";
-    this.charset = charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
-
-    this.context.webkitImageSmoothingEnabled = false;
-    this.context.mozImageSmoothingEnabled = false;
-    this.context.msImageSmoothingEnabled = false;
-    this.context.imageSmoothingEnabled = false;
-
-    this.onMouseMove = this.onMouseMove.bind(this);
-    document.addEventListener('mousemove', this.onMouseMove);
-  }
-
-  setSize(width, height) {
-    this.width = width;
-    this.height = height;
-    this.renderer.setSize(width, height);
-    this.reset();
-
-    this.center = { x: width / 2, y: height / 2 };
-    this.mouse = { x: this.center.x, y: this.center.y };
-  }
-
-  reset() {
-    this.context.font = `${this.fontSize}px ${this.fontFamily}`;
-    const charWidth = this.context.measureText('A').width;
-
-    this.cols = Math.floor(this.width / (this.fontSize * (charWidth / this.fontSize)));
-    this.rows = Math.floor(this.height / this.fontSize);
-
-    this.canvas.width = this.cols;
-    this.canvas.height = this.rows;
-    this.pre.style.fontFamily = this.fontFamily;
-    this.pre.style.fontSize = `${this.fontSize}px`;
-    this.pre.style.margin = '0';
-    this.pre.style.padding = '0';
-    this.pre.style.lineHeight = '1em';
-    this.pre.style.position = 'absolute';
-    this.pre.style.left = '0';
-    this.pre.style.top = '0';
-    this.pre.style.zIndex = '9';
-    this.pre.style.backgroundAttachment = 'fixed';
-    this.pre.style.mixBlendMode = 'difference';
-  }
-
-  render(scene, camera) {
-    this.renderer.render(scene, camera);
-
-    const w = this.canvas.width;
-    const h = this.canvas.height;
-    this.context.clearRect(0, 0, w, h);
-    if (this.context && w && h) {
-      this.context.drawImage(this.renderer.domElement, 0, 0, w, h);
-    }
-
-    this.asciify(this.context, w, h);
-    this.hue();
-  }
-
-  onMouseMove(e) {
-    this.mouse = { x: e.clientX * PX_RATIO, y: e.clientY * PX_RATIO };
-  }
-
-  get dx() {
-    return this.mouse.x - this.center.x;
-  }
-
-  get dy() {
-    return this.mouse.y - this.center.y;
-  }
-
-  hue() {
-    const deg = (Math.atan2(this.dy, this.dx) * 180) / Math.PI;
-    this.deg += (deg - this.deg) * 0.075;
-    this.domElement.style.filter = `hue-rotate(${this.deg.toFixed(1)}deg)`;
-  }
-
-  asciify(ctx, w, h) {
-    if (w && h) {
-      const imgData = ctx.getImageData(0, 0, w, h).data;
-      let str = '';
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-          const i = x * 4 + y * 4 * w;
-          const [r, g, b, a] = [imgData[i], imgData[i + 1], imgData[i + 2], imgData[i + 3]];
-
-          if (a === 0) {
-            str += ' ';
-            continue;
-          }
-
-          let gray = (0.3 * r + 0.6 * g + 0.1 * b) / 255;
-          let idx = Math.floor((1 - gray) * (this.charset.length - 1));
-          if (this.invert) idx = this.charset.length - idx - 1;
-          str += this.charset[idx];
-        }
-        str += '\n';
-      }
-      this.pre.innerHTML = str;
-    }
-  }
-
-  dispose() {
-    document.removeEventListener('mousemove', this.onMouseMove);
-  }
-}
-
-class CanvasTxt {
-  constructor(txt, { fontSize = 200, fontFamily = 'Arial', color = '#fdf9f3' } = {}) {
-    this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d');
-    this.txt = txt;
-    this.fontSize = fontSize;
-    this.fontFamily = fontFamily;
-    this.color = color;
-
-    this.font = `600 ${this.fontSize}px ${this.fontFamily}`;
-  }
-
-  resize() {
-    this.context.font = this.font;
-    const metrics = this.context.measureText(this.txt);
-
-    const textWidth = Math.ceil(metrics.width) + 20;
-    const textHeight = Math.ceil(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent) + 20;
-
-    this.canvas.width = textWidth;
-    this.canvas.height = textHeight;
-  }
-
-  render() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.context.fillStyle = this.color;
-    this.context.font = this.font;
-
-    const metrics = this.context.measureText(this.txt);
-    const yPos = 10 + metrics.actualBoundingBoxAscent;
-
-    this.context.fillText(this.txt, 10, yPos);
-  }
-
-  get width() {
-    return this.canvas.width;
-  }
-
-  get height() {
-    return this.canvas.height;
-  }
-
-  get texture() {
-    return this.canvas;
-  }
-}
-
-class CanvAscii {
-  constructor(
-    { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves },
-    containerElem,
-    width,
-    height
-  ) {
-    this.textString = text;
-    this.asciiFontSize = asciiFontSize;
-    this.textFontSize = textFontSize;
-    this.textColor = textColor;
-    this.planeBaseHeight = planeBaseHeight;
-    this.container = containerElem;
-    this.width = width;
-    this.height = height;
-    this.enableWaves = enableWaves;
-
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 1000);
-    this.camera.position.z = 30;
-
-    this.scene = new THREE.Scene();
-    this.mouse = { x: this.width / 2, y: this.height / 2 };
-
-    this.onMouseMove = this.onMouseMove.bind(this);
-  }
-
-  async init() {
-    try {
-      await document.fonts.load('600 200px "IBM Plex Mono"');
-      await document.fonts.load('500 12px "IBM Plex Mono"');
-    } catch (e) {
-      // Font loading failed, continue with fallback
-    }
-    await document.fonts.ready;
-
-    this.setMesh();
-    this.setRenderer();
-  }
-
-  setMesh() {
-    this.textCanvas = new CanvasTxt(this.textString, {
-      fontSize: this.textFontSize,
-      fontFamily: 'IBM Plex Mono',
-      color: this.textColor
-    });
-    this.textCanvas.resize();
-    this.textCanvas.render();
-
-    this.texture = new THREE.CanvasTexture(this.textCanvas.texture);
-    this.texture.minFilter = THREE.NearestFilter;
-
-    const textAspect = this.textCanvas.width / this.textCanvas.height;
-    const baseH = this.planeBaseHeight;
-    const planeW = baseH * textAspect;
-    const planeH = baseH;
-
-    this.geometry = new THREE.PlaneGeometry(planeW, planeH, 36, 36);
-    this.material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      transparent: true,
-      uniforms: {
-        uTime: { value: 0 },
-        mouse: { value: 1.0 },
-        uTexture: { value: this.texture },
-        uEnableWaves: { value: this.enableWaves ? 1.0 : 0.0 }
-      }
-    });
-
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.mesh);
-  }
-
-  setRenderer() {
-    this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-    this.renderer.setPixelRatio(1);
-    this.renderer.setClearColor(0x000000, 0);
-
-    this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: 'IBM Plex Mono',
-      fontSize: this.asciiFontSize,
-      invert: true
-    });
-
-    this.container.appendChild(this.filter.domElement);
-    this.setSize(this.width, this.height);
-
-    this.container.addEventListener('mousemove', this.onMouseMove);
-    this.container.addEventListener('touchmove', this.onMouseMove);
-  }
-
-  setSize(w, h) {
-    this.width = w;
-    this.height = h;
-
-    this.camera.aspect = w / h;
-    this.camera.updateProjectionMatrix();
-
-    this.filter.setSize(w, h);
-
-    this.center = { x: w / 2, y: h / 2 };
-  }
-
-  load() {
-    this.animate();
-  }
-
-  onMouseMove(evt) {
-    const e = evt.touches ? evt.touches[0] : evt;
-    const bounds = this.container.getBoundingClientRect();
-    const x = e.clientX - bounds.left;
-    const y = e.clientY - bounds.top;
-    this.mouse = { x, y };
-  }
-
-  animate() {
-    const animateFrame = () => {
-      this.animationFrameId = requestAnimationFrame(animateFrame);
-      this.render();
-    };
-    animateFrame();
-  }
-
-  render() {
-    const time = new Date().getTime() * 0.001;
-
-    this.textCanvas.render();
-    this.texture.needsUpdate = true;
-
-    this.mesh.material.uniforms.uTime.value = Math.sin(time);
-
-    this.updateRotation();
-    this.filter.render(this.scene, this.camera);
-  }
-
-  updateRotation() {
-    const x = Math.map(this.mouse.y, 0, this.height, 0.5, -0.5);
-    const y = Math.map(this.mouse.x, 0, this.width, -0.5, 0.5);
-
-    this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.05;
-    this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
-  }
-
-  clear() {
-    this.scene.traverse(obj => {
-      if (obj.isMesh && typeof obj.material === 'object' && obj.material !== null) {
-        Object.keys(obj.material).forEach(key => {
-          const matProp = obj.material[key];
-          if (matProp !== null && typeof matProp === 'object' && typeof matProp.dispose === 'function') {
-            matProp.dispose();
-          }
-        });
-        obj.material.dispose();
-        obj.geometry.dispose();
-      }
-    });
-    this.scene.clear();
-  }
-
-  dispose() {
-    cancelAnimationFrame(this.animationFrameId);
-    if (this.filter) {
-      this.filter.dispose();
-      if (this.filter.domElement.parentNode) {
-        this.container.removeChild(this.filter.domElement);
-      }
-    }
-    this.container.removeEventListener('mousemove', this.onMouseMove);
-    this.container.removeEventListener('touchmove', this.onMouseMove);
-    this.clear();
-    if (this.renderer) {
-      this.renderer.dispose();
-      this.renderer.forceContextLoss();
-    }
-  }
-}
-
-function initAsciiText(container, options) {
-  let instance = null;
-  let ro = null;
-  let cancelled = false;
-
-  const { width, height } = container.getBoundingClientRect();
-
-  const start = async (w, h) => {
-    instance = new CanvAscii(options, container, w, h);
-    await instance.init();
-    if (cancelled) return;
-    instance.load();
-
-    ro = new ResizeObserver(entries => {
-      if (!entries[0] || !instance) return;
-      const { width: w2, height: h2 } = entries[0].contentRect;
-      if (w2 > 0 && h2 > 0) instance.setSize(w2, h2);
-    });
-    ro.observe(container);
-  };
-
-  if (width === 0 || height === 0) {
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && entry.boundingClientRect.width > 0 && entry.boundingClientRect.height > 0) {
-        obs.disconnect();
-        start(entry.boundingClientRect.width, entry.boundingClientRect.height);
-      }
-    }, { threshold: 0.1 });
-    obs.observe(container);
-  } else {
-    start(width, height);
-  }
-
-  return () => {
-    cancelled = true;
-    if (ro) ro.disconnect();
-    if (instance) instance.dispose();
-  };
-}
-
-initAsciiText(document.getElementById('asciiTextContainer'), {
-  text: 'PRAGY',
-  asciiFontSize: 8,
-  textFontSize: 200,
-  textColor: '#fdf9f3',
-  planeBaseHeight: 22,
-  enableWaves: true
+const ctn = document.getElementById('galaxyContainer');
+const targetMousePos = { x: 0.5, y: 0.5 };
+const smoothMousePos = { x: 0.5, y: 0.5 };
+let targetMouseActive = 0.0;
+let smoothMouseActive = 0.0;
+
+const renderer = new Renderer({
+  alpha: options.transparent,
+  premultipliedAlpha: false
 });
+const gl = renderer.gl;
+
+if (options.transparent) {
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.clearColor(0, 0, 0, 0);
+} else {
+  gl.clearColor(0, 0, 0, 1);
+}
+
+let program;
+
+function resize() {
+  renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+  if (program) {
+    program.uniforms.uResolution.value = new Color(
+      gl.canvas.width,
+      gl.canvas.height,
+      gl.canvas.width / gl.canvas.height
+    );
+  }
+}
+window.addEventListener('resize', resize, false);
+resize();
+
+const geometry = new Triangle(gl);
+program = new Program(gl, {
+  vertex: vertexShader,
+  fragment: fragmentShader,
+  uniforms: {
+    uTime: { value: 0 },
+    uResolution: {
+      value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+    },
+    uFocal: { value: new Float32Array(options.focal) },
+    uRotation: { value: new Float32Array(options.rotation) },
+    uStarSpeed: { value: options.starSpeed },
+    uDensity: { value: options.density },
+    uHueShift: { value: options.hueShift },
+    uSpeed: { value: options.speed },
+    uMouse: {
+      value: new Float32Array([smoothMousePos.x, smoothMousePos.y])
+    },
+    uGlowIntensity: { value: options.glowIntensity },
+    uSaturation: { value: options.saturation },
+    uMouseRepulsion: { value: options.mouseRepulsion },
+    uTwinkleIntensity: { value: options.twinkleIntensity },
+    uRotationSpeed: { value: options.rotationSpeed },
+    uRepulsionStrength: { value: options.repulsionStrength },
+    uMouseActiveFactor: { value: 0.0 },
+    uAutoCenterRepulsion: { value: options.autoCenterRepulsion },
+    uTransparent: { value: options.transparent }
+  }
+});
+
+const mesh = new Mesh(gl, { geometry, program });
+
+function update(t) {
+  requestAnimationFrame(update);
+  if (!options.disableAnimation) {
+    program.uniforms.uTime.value = t * 0.001;
+    program.uniforms.uStarSpeed.value = (t * 0.001 * options.starSpeed) / 10.0;
+  }
+
+  const lerpFactor = 0.05;
+  smoothMousePos.x += (targetMousePos.x - smoothMousePos.x) * lerpFactor;
+  smoothMousePos.y += (targetMousePos.y - smoothMousePos.y) * lerpFactor;
+
+  smoothMouseActive += (targetMouseActive - smoothMouseActive) * lerpFactor;
+
+  program.uniforms.uMouse.value[0] = smoothMousePos.x;
+  program.uniforms.uMouse.value[1] = smoothMousePos.y;
+  program.uniforms.uMouseActiveFactor.value = smoothMouseActive;
+
+  renderer.render({ scene: mesh });
+}
+requestAnimationFrame(update);
+ctn.appendChild(gl.canvas);
+
+function handleMouseMove(e) {
+  const rect = ctn.getBoundingClientRect();
+  targetMousePos.x = (e.clientX - rect.left) / rect.width;
+  targetMousePos.y = 1.0 - (e.clientY - rect.top) / rect.height;
+  targetMouseActive = 1.0;
+}
+
+function handleMouseLeave() {
+  targetMouseActive = 0.0;
+}
+
+if (options.mouseInteraction) {
+  ctn.addEventListener('mousemove', handleMouseMove);
+  ctn.addEventListener('mouseleave', handleMouseLeave);
+}
 </script>
 </body>
 </html>
