@@ -508,6 +508,75 @@
       fill: url(#clGradient);
     }
 
+    /* ── LOGO LOOP (below hero stats) ── */
+    .logoloop {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      min-height: 52px;
+      margin-top: 32px;
+      --logoloop-gap: 48px;
+      --logoloop-logoHeight: 52px;
+      --logoloop-fadeColor: #0d0015;
+    }
+    .logoloop__track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
+    .logoloop__list {
+      display: flex;
+      align-items: center;
+      gap: var(--logoloop-gap);
+      list-style: none;
+      margin: 0;
+      padding: 0 calc(var(--logoloop-gap) / 2);
+      flex-shrink: 0;
+    }
+    .logoloop__item {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    .logoloop__link {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .logoloop__item img {
+      height: var(--logoloop-logoHeight);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 8px;
+      opacity: 0.75;
+      filter: grayscale(15%);
+      transition: opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+    }
+    .logoloop--scale-hover .logoloop__item img:hover {
+      opacity: 1;
+      filter: grayscale(0%);
+      transform: scale(1.12);
+    }
+    .logoloop--fade::before,
+    .logoloop--fade::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 70px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .logoloop--fade::before {
+      left: 0;
+      background: linear-gradient(to right, var(--logoloop-fadeColor), transparent);
+    }
+    .logoloop--fade::after {
+      right: 0;
+      background: linear-gradient(to left, var(--logoloop-fadeColor), transparent);
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 640px) {
       .hero { padding: 8px 0 56px; }
@@ -579,6 +648,10 @@
         <span class="stat-label">Platform</span>
       </div>
     </div>
+
+    <div id="logoLoopContainer" class="logoloop logoloop--horizontal logoloop--fade logoloop--scale-hover" role="region" aria-label="App logos">
+      <div class="logoloop__track" id="logoLoopTrack"></div>
+    </div>
   </section>
 
   <!-- APPS -->
@@ -587,7 +660,7 @@
   <div class="cards">
 
     <!-- Expense Tracker -->
-    <div class="card">
+    <div class="card" id="card-expense-tracker">
       <div class="card-top">
         <img class="app-logo" src="logo-expense.png" alt="Expense Tracker Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">💰</div>
@@ -623,7 +696,7 @@
     </div>
 
     <!-- Habit Flow -->
-    <div class="card">
+    <div class="card" id="card-habit-flow">
       <div class="card-top">
         <img class="app-logo" src="logo-habit.png" alt="Habit Flow Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">🔁</div>
@@ -650,7 +723,7 @@
     </div>
 
     <!-- Fee Manager -->
-    <div class="card">
+    <div class="card" id="card-fee-manager">
       <div class="card-top">
         <img class="app-logo" src="logo-feemanager.jpg" alt="Fee Manager Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">📋</div>
@@ -678,7 +751,7 @@
     </div>
 
     <!-- Rent Mate -->
-    <div class="card">
+    <div class="card" id="card-rent-mate">
       <div class="card-top">
         <img class="app-logo" src="logo-rent.png" alt="Rent Mate Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">🏠</div>
@@ -706,7 +779,7 @@
     </div>
 
     <!-- Roll Call -->
-    <div class="card">
+    <div class="card" id="card-roll-call">
       <div class="card-top">
         <img class="app-logo" src="logo-roll.png" alt="Roll Call Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">🎯</div>
@@ -738,7 +811,7 @@
   <div class="cards">
 
     <!-- Sus Talk -->
-    <div class="card">
+    <div class="card" id="card-sus-talk">
       <div class="card-top">
         <img class="app-logo" src="logo-sustalk.png" alt="Sus Talk Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">🕵️</div>
@@ -772,7 +845,7 @@
   <div class="cards">
 
     <!-- Posture Guard -->
-    <div class="card">
+    <div class="card" id="card-posture-guard">
       <div class="card-top">
         <img class="app-logo" src="logo-posture.jpg" alt="Posture Guard Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
         <div class="card-icon">🧍</div>
@@ -1084,6 +1157,163 @@
     }
   })();
 </script>
+
+<script>
+  // ── LOGO LOOP ──
+  // Ported from a React infinite-marquee component (LogoLoop). Wrapped in
+  // an IIFE to keep its variables out of the global scope.
+  (function () {
+    const MIN_COPIES = 2;
+    const COPY_HEADROOM = 2;
+    const SMOOTH_TAU = 0.25;
+
+    // Speed in px/s, direction 'left' or 'right'.
+    const speed = 60;
+    const direction = 'right';
+    const pauseOnHover = true;
+
+    // Uses the same logo files already referenced by the app cards above.
+    const logos = [
+      { src: 'logo-expense.png', alt: 'Expense Tracker', href: '#card-expense-tracker' },
+      { src: 'logo-habit.png', alt: 'Habit Flow', href: '#card-habit-flow' },
+      { src: 'logo-feemanager.jpg', alt: 'Fee Manager', href: '#card-fee-manager' },
+      { src: 'logo-rent.png', alt: 'Rent Mate', href: '#card-rent-mate' },
+      { src: 'logo-roll.png', alt: 'Roll Call', href: '#card-roll-call' },
+      { src: 'logo-sustalk.png', alt: 'Sus Talk', href: '#card-sus-talk' },
+      { src: 'logo-posture.jpg', alt: 'Posture Guard', href: '#card-posture-guard' }
+    ];
+
+    const container = document.getElementById('logoLoopContainer');
+    const track = document.getElementById('logoLoopTrack');
+
+    function buildList(hidden) {
+      const ul = document.createElement('ul');
+      ul.className = 'logoloop__list';
+      ul.setAttribute('role', 'list');
+      if (hidden) ul.setAttribute('aria-hidden', 'true');
+      logos.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'logoloop__item';
+        li.setAttribute('role', 'listitem');
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.alt || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.draggable = false;
+        // Hide broken logo images gracefully instead of showing a broken-image icon.
+        img.onerror = function () {
+          this.style.display = 'none';
+          li.style.width = 'var(--logoloop-logoHeight)';
+          li.style.height = 'var(--logoloop-logoHeight)';
+          li.style.borderRadius = '8px';
+          li.style.background = 'rgba(168,85,247,0.15)';
+          li.style.border = '1px dashed rgba(168,85,247,0.3)';
+        };
+        if (item.href) {
+          const a = document.createElement('a');
+          a.className = 'logoloop__link';
+          a.href = item.href;
+          a.setAttribute('aria-label', item.alt || 'App link');
+          a.appendChild(img);
+          li.appendChild(a);
+        } else {
+          li.appendChild(img);
+        }
+        ul.appendChild(li);
+      });
+      return ul;
+    }
+
+    let seqWidth = 0;
+    let copyCount = MIN_COPIES;
+    let seqEl = null;
+
+    function rebuildCopies() {
+      track.innerHTML = '';
+      seqEl = buildList(false);
+      track.appendChild(seqEl);
+      for (let i = 1; i < copyCount; i++) {
+        track.appendChild(buildList(true));
+      }
+    }
+
+    function updateDimensions() {
+      const containerWidth = container.clientWidth || 0;
+      const rect = seqEl ? seqEl.getBoundingClientRect() : { width: 0 };
+      const sequenceWidth = rect.width || 0;
+
+      if (sequenceWidth > 0) {
+        seqWidth = Math.ceil(sequenceWidth);
+        const copiesNeeded = Math.ceil(containerWidth / sequenceWidth) + COPY_HEADROOM;
+        const newCopyCount = Math.max(MIN_COPIES, copiesNeeded);
+        if (newCopyCount !== copyCount) {
+          copyCount = newCopyCount;
+          rebuildCopies();
+        }
+      }
+    }
+
+    rebuildCopies();
+
+    // Re-measure once all logo images have loaded (sizes affect layout width).
+    function afterImagesLoad(cb) {
+      const images = track.querySelectorAll('img');
+      if (images.length === 0) { cb(); return; }
+      let remaining = images.length;
+      const done = () => { remaining -= 1; if (remaining <= 0) cb(); };
+      images.forEach(img => {
+        if (img.complete) done();
+        else {
+          img.addEventListener('load', done, { once: true });
+          img.addEventListener('error', done, { once: true });
+        }
+      });
+    }
+    afterImagesLoad(updateDimensions);
+
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(updateDimensions);
+      ro.observe(container);
+    } else {
+      window.addEventListener('resize', updateDimensions);
+    }
+
+    let isHovered = false;
+    if (pauseOnHover) {
+      track.addEventListener('mouseenter', () => { isHovered = true; });
+      track.addEventListener('mouseleave', () => { isHovered = false; });
+    }
+
+    const directionMultiplier = direction === 'left' ? 1 : -1;
+    const targetVelocity = Math.abs(speed) * directionMultiplier;
+
+    let offset = 0;
+    let velocity = 0;
+    let lastTimestamp = null;
+
+    function animate(timestamp) {
+      if (lastTimestamp === null) lastTimestamp = timestamp;
+      const deltaTime = Math.max(0, timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      const target = isHovered && pauseOnHover ? 0 : targetVelocity;
+      const easingFactor = 1 - Math.exp(-deltaTime / SMOOTH_TAU);
+      velocity += (target - velocity) * easingFactor;
+
+      if (seqWidth > 0) {
+        let nextOffset = offset + velocity * deltaTime;
+        nextOffset = ((nextOffset % seqWidth) + seqWidth) % seqWidth;
+        offset = nextOffset;
+        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      }
+
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  })();
+</script>
+
 
 <script type="module">
 import { Renderer, Program, Mesh, Color, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/src/index.js";
