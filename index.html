@@ -713,15 +713,13 @@
     // Normal fresh page load.
     playIntro();
 
-    // Some browsers restore a page from a frozen "back/forward cache"
-    // snapshot instead of doing a real reload — e.g. closing and
-    // reopening the browser with "continue where you left off", or
-    // navigating back/forward. That snapshot already has the intro
-    // fully finished and hidden. `pageshow` with `event.persisted`
-    // detects exactly this case so we can replay the intro instead of
-    // silently skipping it.
-    window.addEventListener('pageshow', function (event) {
-      if (event.persisted) {
+    // Replay the intro every time this tab/window becomes visible again —
+    // switching back from another app, another tab, minimizing/restoring
+    // the browser, or reopening it after closing. The Page Visibility API
+    // fires reliably for all of these across Chrome/Edge/Firefox, unlike
+    // relying on bfcache-specific signals which don't cover every case.
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
         playIntro();
       }
     });
