@@ -60,6 +60,43 @@
       to   { opacity:1; transform:translateY(0); }
     }
 
+    /* ── INTRO OVERLAY ── */
+    #introOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0d0015;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.6s ease;
+    }
+    #introOverlay.intro-fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #introText {
+      display: inline-block;
+      white-space: pre-wrap;
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: clamp(20px, 4.5vw, 40px);
+      text-transform: uppercase;
+    }
+    #introText .intro-char-revealed {
+      background: linear-gradient(135deg, #c084fc, #e879f9, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(168,85,247,0.35);
+    }
+    #introText .intro-char-encrypted {
+      color: rgba(168,85,247,0.35);
+    }
+
     /* ── LAYOUT ── */
     .wrapper {
       position: relative; z-index: 1;
@@ -598,6 +635,98 @@
   </style>
 </head>
 <body>
+
+<div id="introOverlay">
+  <span id="introText" aria-label="Welcome to Mind Flux Store"></span>
+</div>
+<script>
+  // ── INTRO OVERLAY ──
+  // One-shot port of a React "decrypted text" reveal effect: scrambles
+  // random characters, then progressively reveals the real text left to
+  // right, holds briefly, and fades the whole overlay out.
+  (function () {
+    const INTRO_TEXT = 'Welcome to Mind Flux Store';
+    const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+';
+    const SPEED_MS = 40;       // ms between each character reveal
+    const HOLD_MS = 900;       // how long to keep the fully-revealed text on screen
+    const FADE_MS = 600;       // must match the CSS transition duration
+
+    const overlay = document.getElementById('introOverlay');
+    const textEl = document.getElementById('introText');
+    const chars = INTRO_TEXT.split('');
+    let activeInterval = null;
+
+    function randomChar() {
+      return CHARSET[Math.floor(Math.random() * CHARSET.length)];
+    }
+
+    function render(revealedCount) {
+      textEl.innerHTML = '';
+      chars.forEach((char, i) => {
+        const span = document.createElement('span');
+        if (char === ' ') {
+          span.textContent = ' ';
+        } else if (i < revealedCount) {
+          span.textContent = char;
+          span.className = 'intro-char-revealed';
+        } else {
+          span.textContent = randomChar();
+          span.className = 'intro-char-encrypted';
+        }
+        textEl.appendChild(span);
+      });
+    }
+
+    function playIntro() {
+      if (activeInterval) clearInterval(activeInterval);
+
+      // Reset overlay to its starting visible state (undoes any previous fade-out).
+      overlay.style.display = 'flex';
+      overlay.classList.remove('intro-fade-out');
+      // Force a reflow so the removed class + display change take effect
+      // before we start animating again, in case the browser restored a
+      // frozen (bfcache) snapshot of the already-finished intro.
+      void overlay.offsetWidth;
+
+      document.body.style.overflow = 'hidden';
+
+      let revealed = 0;
+      render(0);
+
+      activeInterval = setInterval(() => {
+        revealed++;
+        render(revealed);
+        if (revealed >= chars.length) {
+          clearInterval(activeInterval);
+          activeInterval = null;
+          setTimeout(() => {
+            overlay.classList.add('intro-fade-out');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+              overlay.style.display = 'none';
+            }, FADE_MS);
+          }, HOLD_MS);
+        }
+      }, SPEED_MS);
+    }
+
+    // Normal fresh page load.
+    playIntro();
+
+    // Some browsers restore a page from a frozen "back/forward cache"
+    // snapshot instead of doing a real reload — e.g. closing and
+    // reopening the browser with "continue where you left off", or
+    // navigating back/forward. That snapshot already has the intro
+    // fully finished and hidden. `pageshow` with `event.persisted`
+    // detects exactly this case so we can replay the intro instead of
+    // silently skipping it.
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        playIntro();
+      }
+    });
+  })();
+</script>
 
 <div class="cursor-glow" id="cursorGlow"></div>
 <div id="galaxyContainer" class="galaxy-container"></div>
