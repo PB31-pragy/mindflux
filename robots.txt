@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pb31-pragy.github.io/mindflux/sitemap.xml
+Sitemap: https://mindfluxstore.web.app/sitemap.xml
